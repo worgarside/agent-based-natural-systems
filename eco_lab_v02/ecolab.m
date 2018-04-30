@@ -41,7 +41,7 @@ function ecolab(size,nr,nf,nsteps,fmode,outImages)
     random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
     [agent]=create_agents(nr,nf);       %create nr rabbit and nf fox agents and places them in a cell array called 'agents'
     create_messages(nr,nf,agent);       %sets up the initial message lists
-    initialise_results(nr,nf,nsteps);   %initilaises structure for storing results
+    initialise_results(nr,nf,nsteps);   %initialises structure for storing results
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %MODEL EXECUTION
     for n_it=1:nsteps                   %the main execution loop
