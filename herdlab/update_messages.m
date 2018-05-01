@@ -42,10 +42,10 @@ for cn=1:temp_n
         MESSAGES.pos(cn,:)=pos;                    
          if isa(agent{cn},'vaccinated')
              MESSAGES.atype(cn)=1;
-             IT_STATS.tot_r(N_IT+1)=IT_STATS.tot_r(N_IT+1)+1;
+             IT_STATS.vaccinated(N_IT+1)=IT_STATS.vaccinated(N_IT+1)+1;
          elseif isa(agent{cn},'infected')
              MESSAGES.atype(cn)=2;
-             IT_STATS.tot_f(N_IT+1)=IT_STATS.tot_f(N_IT+1)+1;
+             IT_STATS.infected(N_IT+1)=IT_STATS.infected(N_IT+1)+1;
          end
          MESSAGES.dead(cn)=0;           %clear death message
          nn=nn+1;
@@ -56,4 +56,3 @@ for cn=1:temp_n
     end
 end
 IT_STATS.tot(N_IT+1)=nn;                %update total agent number
-IT_STATS.tfood(N_IT+1)=sum(sum(ENV_DATA.food));   %total food remaining

@@ -52,8 +52,8 @@ if d<=spd & length(nrst)>0    %if there is at least one  vaccinated within the s
         
         
         new=infected(MESSAGES.age(nrst), 50, npos);              
-
-%         IT_STATS.eaten(N_IT+1)=IT_STATS.eaten(N_IT+1)+1;                %update model statistics
+        
+        IT_STATS.infections(N_IT+1)=IT_STATS.infections(N_IT+1)+1;                %update model statistics
         MESSAGES.dead(nrst)=1;       % send message to vaccinated so it knows it's infected!
     end
 end
