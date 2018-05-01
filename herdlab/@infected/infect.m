@@ -1,4 +1,4 @@
-function [agt,eaten]=eat(agt,cn)
+function [agt]=infect(agt,cn)
 
 %eating function for class INFECTED
 %agt=fox object
@@ -29,19 +29,18 @@ function [agt,eaten]=eat(agt,cn)
 global  IT_STATS N_IT MESSAGES
 
 pos=agt.pos;                        %extract current position
-cfood=agt.food;                     %get current agent food level
-spd=agt.speed;                      %infected migration speed in units per iteration - this is equal to the food search radius
+cfood=agt.health;                     %get current agent food level
+spd=2;                      %infected migration speed in units per iteration - this is equal to the food search radius
 hungry=1;
-eaten=0;
 
 typ=MESSAGES.atype;                                         %extract types of all agents
 rb=find(typ==1);                                            %indices of all vaccinateds
-rpos=MESSAGES.pos(rb,:);                                     %extract positions of all vaccinateds
-csep=sqrt((rpos(:,1)-pos(:,1)).^2+(rpos(:,2)-pos(:,2)).^2);  %calculate distance to all vaccinateds
+rpos=MESSAGES.pos(rb,:);                                     %extract positions of all vaccinated
+csep=sqrt((rpos(:,1)-pos(:,1)).^2+(rpos(:,2)-pos(:,2)).^2);  %calculate distance to all vaccinated
 [d,ind]=min(csep);                                            %d is distance to closest vaccinated, ind is index of that vaccinated
 nrst=rb(ind);                                                %index of nearest vaccinated(s)
 
-if d<=spd&length(nrst)>0    %if there is at least one  vaccinated within the search radius
+if d<=spd & length(nrst)>0    %if there is at least one  vaccinated within the search radius
     if length(nrst)>1       %if more than one vaccinated located at same distance then randomly pick one to head towards
         s=round(rand*(length(nrst)-1))+1;
         nrst=nrst(s);
@@ -51,17 +50,14 @@ if d<=spd&length(nrst)>0    %if there is at least one  vaccinated within the sea
         nx=MESSAGES.pos(nrst,1);    %extract exact location of this vaccinated
         ny=MESSAGES.pos(nrst,2);
         npos=[nx ny];
-        agt.food=cfood+1;           %increase agent food by one unit
         agt.pos=npos;               %move agent to position of this vaccinated
         IT_STATS.eaten(N_IT+1)=IT_STATS.eaten(N_IT+1)+1;                %update model statistics
-        eaten=1;
-        hungry=0;
         MESSAGES.dead(nrst)=1;       %send message to vaccinated so it knows it's dead!
     end
 end
-if hungry==1
-    agt.food=cfood-1;     %if no food, then reduce agent food by one unit
-end
+
+agt.health=cfood-1;     %reduce agent health by one unit
+
 
 
 

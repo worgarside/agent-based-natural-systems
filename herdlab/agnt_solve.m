@@ -8,7 +8,7 @@ function [nagent,nn]=agnt_solve(agent)
 %nagent - list of updated agent structures
 %nn - total number of live agents at end of update
 
-%Created by Dawn Walker 3/4/08 
+%Created by Dawn Walker 3/4/08
 
 agent_count=length(agent);    %current no. of agents
 new_count=0;    %no. new agents
@@ -16,24 +16,43 @@ prev_n=agent_count;   %remember current agent number at the start of this iterat
 
 %execute existing agent update loop
 for cn=1:agent_count
-	curr=agent{cn};
-    if isa(curr,'vaccinated')||isa(curr,'infected')
+    curr=agent{cn};
+    if isa(curr,'vaccinated')
         [curr,eaten]=eat(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
         if eaten==0
             curr=migrate(curr,cn);              %if no food was eaten, then migrate in search of some
         end
-%         TODO: implement death
-%         [curr,klld]=die(curr,cn);                %death rule (from starvation or old age)
-%         if klld==0
-            new=[];
-%             [curr,new]=breed(curr,cn);			%breeding rule 
-                % TODO: implement breeding
-%             if ~isempty(new)					%if current agent has bred during this iteration
-                 new_count=new_count+1;                 %increase new agent number
-                 agent{agent_count+new_count}=new;			%add new to end of agent list
-%              end
-%         end
-       agent{cn}=curr;                          %up date cell array with modified agent data structure
+        %         TODO: implement death
+        %         [curr,klld]=die(curr,cn);                %death rule (from starvation or old age)
+        %         if klld==0
+        new=[];
+        %             [curr,new]=breed(curr,cn);			%breeding rule
+        % TODO: implement breeding
+        %             if ~isempty(new)					%if current agent has bred during this iteration
+        new_count=new_count+1;                 %increase new agent number
+        agent{agent_count+new_count}=new;			%add new to end of agent list
+        %              end
+        %         end
+        agent{cn}=curr;                          %up date cell array with modified agent data structure
+    end
+    
+    if isa(curr,'infected')
+        [curr]=infect(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
+        
+        curr=migrate(curr,cn);              %migrate regardless of infection
+        
+        %         TODO: implement death
+        %         [curr,klld]=die(curr,cn);                %death rule (from starvation or old age)
+        %         if klld==0
+        new=[];
+        %             [curr,new]=breed(curr,cn);			%breeding rule
+        % TODO: implement breeding
+        %             if ~isempty(new)					%if current agent has bred during this iteration
+        new_count=new_count+1;                 %increase new agent number
+        agent{agent_count+new_count}=new;			%add new to end of agent list
+        %              end
+        %         end
+        agent{cn}=curr;                          %up date cell array with modified agent data structure
     end
 end
 
