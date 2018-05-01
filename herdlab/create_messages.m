@@ -13,17 +13,20 @@ function create_messages(nr,nf,agent)
    
  global MESSAGES
  
- for an=1:length(agent)
-     if isa(agent{an},'vaccinated')
-        MESSAGES.atype(an)=1;
-        MESSAGES.pos(an,:)=get(agent{an},'pos');
-     elseif isa(agent{an},'infected')
-        MESSAGES.atype(an)=2;
-        MESSAGES.pos(an,:)=get(agent{an},'pos');
+ for agt_index = 1:length(agent)
+     if isa(agent{agt_index},'vaccinated')
+        MESSAGES.atype(agt_index) = 1;
+        MESSAGES.pos(agt_index,:) = get(agent{agt_index},'pos');
+        MESSAGES.age(agt_index,:) = get(agent{agt_index}, 'age');
+     elseif isa(agent{agt_index}, 'infected')
+        MESSAGES.atype(agt_index) = 2;
+        MESSAGES.pos(agt_index,:) = get(agent{agt_index}, 'pos');
+%         MESSAGES.age(agt_index,:) = get(agent{agt_index}, 'age'); % Don't
+%         need to store this
      else
-        MESSAGES.atype(an)=0; 
-        MESSAGES.pos(an,:)=[-1 -1];
+        MESSAGES.atype(agt_index) = 0; 
+        MESSAGES.pos(agt_index,:) = [-1 -1];
      end
-     MESSAGES.dead(an)=0;
+     MESSAGES.dead(agt_index)=0;
  end
      

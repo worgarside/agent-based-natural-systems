@@ -37,20 +37,22 @@ for cn=1:agent_count
     end
     
     if isa(curr,'infected')
-        [curr]=infect(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
+        new = [];
+        [curr, new]=infect(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
         
         curr=migrate(curr,cn);              %migrate regardless of infection
         
         %         TODO: implement death
         %         [curr,klld]=die(curr,cn);                %death rule (from starvation or old age)
         %         if klld==0
-        new=[];
-        %             [curr,new]=breed(curr,cn);			%breeding rule
+        
+        
         % TODO: implement breeding
-        %             if ~isempty(new)					%if current agent has bred during this iteration
-        new_count=new_count+1;                 %increase new agent number
-        agent{agent_count+new_count}=new;			%add new to end of agent list
-        %              end
+        
+        if ~isempty(new)					%if current agent has bred during this iteration
+            new_count=new_count+1;                 %increase new agent number
+            agent{agent_count+new_count}=new;			%add new to end of agent list
+        end
         %         end
         agent{cn}=curr;                          %up date cell array with modified agent data structure
     end
