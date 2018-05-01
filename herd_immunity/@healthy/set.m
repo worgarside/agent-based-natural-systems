@@ -1,6 +1,6 @@
 function c=set(c,prop_name,val)
 
-%standard function to allow insertion of memory parameters from human object
+%standard function to allow insertion of memory parameters from healthy human
 
 switch prop_name
              

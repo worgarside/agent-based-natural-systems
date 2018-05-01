@@ -1,5 +1,5 @@
-classdef human
-    %HUMAN Summary of this class goes here
+classdef healthy
+    %HEALTHY Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
@@ -11,8 +11,8 @@ classdef human
     end
     
     methods
-        function h=human(varargin) %constructor method for fox  - assigns values to fox properties
-                % h=human(vaccinated, infection, immune, carrier, pos)
+        function h=healthy(varargin) %constructor method for fox  - assigns values to fox properties
+                % h=healthy(vaccinated, infection, immune, carrier, pos)
                 %
                 % vaccinated, immune, carrier = Boolean
                 % health = int
@@ -26,12 +26,12 @@ classdef human
                     h.carrier=[];
                     h.pos=[];
                 case 1
-                    if (isa(varargin{1},'human'))		
+                    if (isa(varargin{1},'healthy'))		
                         h=varargin{1};
                     else
-                        error('Input argument is not a valid human')
+                        error('Input argument is not a valid healthy')
                     end
-                case 5                          % create a new human (currently the only constructor method used)
+                case 5                          % create a new healthy (currently the only constructor method used)
                     h.vaccinated=varargin{1};   % boolean vaccination status
                     h.health=varargin{2};       % continuous health state (100 = no infection, 1 = about to become zombie-esque)
                     h.immune=varargin{3};       % boolean natural immunity status

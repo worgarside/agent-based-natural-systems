@@ -1,10 +1,10 @@
 function [agt]=migrate(agt,cn)
 
-%migration functions for class HUMAN
-%agt=human object
+%migration functions for class HEALTHY
+%agt=healthy object
 %cn - current agent number
 
-%SUMMARY OF HUMAN MIGRATE RULE
+%SUMMARY OF HEALTHY MIGRATE RULE
 % Humans pick a random migration direction, could move away from infected
 % If it will leave the edge of the model, the direction is incremented by 45
 % degrees at it will try again (up to 8 times)
@@ -25,10 +25,10 @@ envSize = ENV_DATA.bm_size;
 spd = 5;   % migration speed in units per iteration
 pos = agt.pos;     % extract current position
 
-mig=0;
-cnt=1;
-dir=rand * 2 * pi;              % fox has been unable to find food, so chooses a random direction to move in
-while mig==0 && cnt<=8        % fox has up to 8 attempts to migrate (without leaving the edge of the model)
+mig=0; % boolean value to falg if the agent has migrated?
+cnt=1; % number of times attempted to migrate
+dir=rand * 2 * pi;              % human has been unable to find food, so chooses a random direction to move in
+while mig==0 && cnt<=8        % human has up to 8 attempts to migrate (without leaving the edge of the model)
     npos(1)=pos(1) + (spd * cos(dir));        % new x co-ordinate
     npos(2)=pos(2) + (spd * sin(dir));        % new y co-ordinate
     if npos(1)<envSize && npos(2)<envSize && npos(1)>=1 && npos(2)>=1   %check that agent has not left edge of model - correct if so.
