@@ -30,7 +30,7 @@ for r=1:nr
     age=ceil(rand*10);
     food=ceil(rand*20)+20;
     lbreed=round(rand*PARAM.R_BRDFQ);
-    agent{r}=vaccinated(age,food,pos,PARAM.R_SPD,lbreed);
+    agent{r}=vaccinated(age,food,lbreed,PARAM.R_SPD,pos, true);
 end
 
 %generate all infected agents and record their positions in ENV_MAT_F
