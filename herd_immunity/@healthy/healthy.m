@@ -1,6 +1,6 @@
 classdef healthy
-    %HEALTHY Summary of this class goes here
-    %   Detailed explanation goes here
+    % Summary of this class goes here
+    % Detailed explanation goes here
     
     properties
         vaccinated;
