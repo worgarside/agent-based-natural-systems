@@ -4,9 +4,6 @@ function ecolab(size,nr,nf,nsteps,fmode,outImages)
 %demonstration purposes only for University of Sheffield module
 %COM3001/6006/6009
 
-%AUTHOR Dawn Walker d.c.walker@sheffield.ac.uk
-%Created April 2008
-
 %ecolab(size,nr,nf,nsteps)
 %size = size of model environmnet in km (sugested value for plotting
 %purposes =50)
