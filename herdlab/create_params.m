@@ -8,5 +8,6 @@ function create_params
 
 global PARAM
 
-    PARAM.VACC_SPEED=5;         %speed of movement - units per itn (vaccinated)
-    PARAM.INFEC_SPEED=5;         %speed of movement - units per itn (infected)    
+    PARAM.VACC_SPEED=5;
+    PARAM.INFEC_SPEED=5;  
+    PARAM.VULN_SPEED=5;  

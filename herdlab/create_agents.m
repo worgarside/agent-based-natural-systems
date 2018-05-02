@@ -1,26 +1,38 @@
-function [agent]=create_agents(vacc_count,infec_count)
+function [agent]=create_agents(vuln_count, vacc_count,infec_count)
 
-global ENV_DATA MESSAGES PARAM
+global ENV_DATA MESSAGES
 
-size=ENV_DATA.size;
-vacc_loc=(size-1)*rand(vacc_count,2)+1;      %generate random initial positions for vaccinateds
-infec_loc=(size-1)*rand(infec_count,2)+1;      %generate random initial positions for infectedes
+size = ENV_DATA.size;
 
-MESSAGES.pos=[vacc_loc;infec_loc];
+% generate random initial positions
+vuln_loc = (size-1)*rand(vuln_count, 2)+1;
+vacc_loc = (size-1)*rand(vacc_count, 2)+1;
+infec_loc = (size-1)*rand(infec_count, 2)+1;
 
-for vacc=1:vacc_count
-    pos = vacc_loc(vacc,:);
+MESSAGES.pos=[vuln_loc;vacc_loc;infec_loc];
+
+for vuln = 1 : vuln_count
     age = ceil(rand*10);
     health = 100;
-    immune = true;
+    pos = vuln_loc(vuln,:);
+    carrier = false;
+    immune = false;
     
-    agent{vacc} = vaccinated(age, health, immune, PARAM.VACC_SPEED, pos);
+    agent{vuln} = vulnerable(age, health, pos, carrier, immune);
 end
 
-for infec = vacc_count+1:vacc_count+infec_count
-    pos=infec_loc(infec-vacc_count,:);
+for vacc = vuln_count+1 : vuln_count+vacc_count
+    age = ceil(rand*10);
+    health = 100;
+    pos = vacc_loc(vacc-vuln_count,:);
     
-    age=ceil(rand*10);
-    health=50;
-    agent{infec}=infected(age,health,pos);
+    agent{vacc} = vaccinated(age, health, pos);
+end
+
+for infec = vuln_count+vacc_count+1 : vuln_count+vacc_count+infec_count    
+    age = ceil(rand*10);
+    health = 50;
+    pos = infec_loc(infec-(vuln_count+vacc_count),:);
+    
+    agent{infec} = infected(age, health, pos);
 end

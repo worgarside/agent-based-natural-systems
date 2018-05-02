@@ -1,16 +1,16 @@
 function [agt, new]=infect(agt,cn)
 
-global  IT_STATS STEP_NUM MESSAGES
+global  IT_STATS STEP_NUM MESSAGES PARAM
 
-pos=agt.pos;
-spd=2;
+pos = agt.pos;
+spd = PARAM.INFEC_SPEED;
 
 typ = MESSAGES.atype;                                         %extract types of all agents
-vacc_indices = find(typ==1);                                            %indices of all vaccinateds
-vacc_pos = MESSAGES.pos(vacc_indices,:);                                     %extract positions of all vaccinated
-dist = sqrt((vacc_pos(:,1)-pos(:,1)).^2+(vacc_pos(:,2)-pos(:,2)).^2);  %calculate distance to all vaccinated
+vuln_indices = find(typ == 1);                                            %indices of all vaccinateds
+vuln_pos = MESSAGES.pos(vuln_indices,:);                                     %extract positions of all vaccinated
+dist = sqrt((vuln_pos(:,1)-pos(:,1)).^2+(vuln_pos(:,2)-pos(:,2)).^2);  %calculate distance to all vaccinated
 [d, ind] = min(dist);                                            %d is distance to closest vaccinated, ind is index of that vaccinated
-nrst = vacc_indices(ind);                                                %index of nearest vaccinated(s)
+nrst = vuln_indices(ind);                                                %index of nearest vaccinated(s)
 new = [];
 
 if d<=spd & length(nrst)>0  %if there is at least one  vaccinated within the search radius

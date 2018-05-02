@@ -1,4 +1,4 @@
-function plot_results(agent, nsteps, fmode, outImages)
+function plot_results(agent, nsteps, fast_mode, outImages)
 
 % Plots 2d patch images of agents onto background
 %%%%%%%%%%%
@@ -11,41 +11,47 @@ function plot_results(agent, nsteps, fmode, outImages)
 global STEP_NUM IT_STATS ENV_DATA MESSAGES CONTROL_DATA
 
 % write results to the screen
+vuln_count = IT_STATS.vulnerable;
 vacc_count = IT_STATS.vaccinated;
-inf_count = IT_STATS.infected;
+infec_count = IT_STATS.infected;
+
 fprintf('\nIteration #%i\n', STEP_NUM)
 fprintf('Migrations:      %i\n', IT_STATS.migrations(STEP_NUM+1))
 fprintf('Infected deaths: %i\n', IT_STATS.dead_infected(STEP_NUM+1))
 fprintf('Infections:      %i\n', IT_STATS.infections(STEP_NUM+1))
 
 %plot line graphs of agent numbers and remaining food
-if (fmode==false) || (STEP_NUM==nsteps) || ((fmode==true) && (rem(STEP_NUM , CONTROL_DATA.fmode_display_every)==0))
+if (fast_mode==false) || (STEP_NUM==nsteps) || ((fast_mode==true) && (rem(STEP_NUM , CONTROL_DATA.fmode_display_every)==0))
     
     %Plotting takes time so fmode has been introduced to only plot every n=CONTROL_DATA.fmode_display_every iterations
     %This value increases with the number of agents (see ecolab.m L57-61) as plotting more agents takes longer.
     %fmode can be turned off in the command line - see ecolab documentation
     
-    col{1}='g-';                   %set up colours that will represent different cell types red for vaccinated, blue for infected
+    col{1}='g-';
     col{2}='r-';
     col{3}='b-';
     
-    n = vacc_count(STEP_NUM+1)+inf_count(STEP_NUM+1);             %current agent number
+    n = vuln_count(STEP_NUM+1) + vacc_count(STEP_NUM+1) + infec_count(STEP_NUM+1);
     f2=figure(2);
     set(f2,'Units', 'Normalized');
     set(f2,'Position', [0.5 0.5 0.45 0.4]);
     
+    
     subplot(3,1,1), cla
-    subplot(3,1,1), plot((1:STEP_NUM+1), vacc_count(1:STEP_NUM+1), col{1});
-    subplot(3,1,1), axis([0 nsteps 0 1.1*max(vacc_count)]);
+    subplot(3,1,1), plot((1:STEP_NUM+1), vuln_count(1:STEP_NUM+1), col{3});
+    subplot(3,1,1), axis([0 nsteps 0 1.1*max(vuln_count)]);
+    subplot(3,1,1), title('Vulnerable');
+    
     subplot(3,1,2), cla
-    subplot(3,1,2), plot((1:STEP_NUM+1), inf_count(1:STEP_NUM+1), col{2});
-    subplot(3,1,2), axis([0 nsteps 0 1.1*max(inf_count)]);
+    subplot(3,1,2), plot((1:STEP_NUM+1), vacc_count(1:STEP_NUM+1), col{1});
+    subplot(3,1,2), axis([0 nsteps 0 1.1*max(vacc_count)]);
+    subplot(3,1,2), title('Vaccinated');
+    
     subplot(3,1,3), cla
-    subplot(3,1,3), plot((1:STEP_NUM+1), 1, 'm-');
-    subplot(3,1,3), axis([0 nsteps 0 1]);
-    subplot(3,1,1), title('Vaccinated');
-    subplot(3,1,2), title('Infected');
-    subplot(3,1,3), title('Natural');
+    subplot(3,1,3), plot((1:STEP_NUM+1), infec_count(1:STEP_NUM+1), col{2});
+    subplot(3,1,3), axis([0 nsteps 0 1.1*max(infec_count)]);
+    subplot(3,1,3), title('Infected');
+    
     drawnow
     
     %create plot of agent locations.
@@ -68,26 +74,30 @@ if (fmode==false) || (STEP_NUM==nsteps) || ((fmode==true) && (rem(STEP_NUM , CON
     set(hs,'SpecularStrength',0.1);
     hold on
     
-    for curr_agent = 1:length(agent)                  % cycle through each agent in turn
+    for curr_agent = 1:length(agent)                % cycle through each agent in turn
         if typ(curr_agent) > 0                      % only plot live agents
-            pos = get(agent{curr_agent}, 'pos');      % extract current position
+            pos = get(agent{curr_agent}, 'pos');    % extract current position
             % choose plot colour depending on agent type
-            if isa(agent{curr_agent}, 'vaccinated')
-                fo = plot(pos(1), pos(2), 'g*');
+            if isa(agent{curr_agent}, 'vulnerable')
+                fo = plot(pos(1), pos(2), 'b.');
+                set(fo,'MarkerSize', 20);
+            elseif isa(agent{curr_agent}, 'vaccinated')
+                fo = plot(pos(1), pos(2), 'g.');
                 set(fo,'MarkerSize', 20);
             elseif isa(agent{curr_agent}, 'infected')
                 fo = plot(pos(1), pos(2), 'r.');
                 set(fo,'MarkerSize', 20);
             else
-                fo = plot(pos(1), pos(2), 'b+');
-                set(fo,'MarkerSize', 30);
+                fo = plot(pos(1), pos(2), 'y*');
+                set(fo,'MarkerSize', 20);
             end
         end
     end
     
     % Once all cells are plotted, set up perspective, lighting etc.
     h = findobj(gcf,'type', 'surface');
-    set(h,'edgecolor', 'white');
+    % set(h,'edgecolor', 'white');
+    set(h,'edgecolor', 'none');
     lighting flat
     axis equal
     
@@ -99,8 +109,8 @@ if (fmode==false) || (STEP_NUM==nsteps) || ((fmode==true) && (rem(STEP_NUM , CON
     title(['Iteration #' num2str(STEP_NUM) '     Agent Count: ' num2str(n)]);
     axis off
     drawnow
-    if outImages==true  %this outputs images if outImage parameter set to true!!
-        if fmode==true %this warning is to show not all iterations are being output if fmode=true!
+    if outImages==true  % this outputs images if outImage parameter set to true!!
+        if fast_mode==true % this warning is to show not all iterations are being output if fmode=true!
             disp('WARNING*** fastmode set - To output all Images for a movie, set fmode to false(fast mode turned off) ');
         end
         filenamejpg = sprintf('%04d',STEP_NUM);
