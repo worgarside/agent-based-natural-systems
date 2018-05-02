@@ -1,44 +1,26 @@
-function [agent]=create_agents(nr,nf)
-
-%creates the objects representing each agent
-
-%agent - cell array containing list of objects representing agents
-%nr - number of vaccinated
-%nf - number of infected
-
-%global parameters
-%ENV_DATA - data structure representing the environment (initialised in
-%create_environment.m)
-%MESSAGES is a data structure containing information that agents need to
-%broadcast to each other
-%PARAM - structure containing values of all parameters governing agent
-%behaviour for the current simulation
+function [agent]=create_agents(vacc_count,infec_count)
 
 global ENV_DATA MESSAGES PARAM
 
-bm_size=ENV_DATA.bm_size;
-rloc=(bm_size-1)*rand(nr,2)+1;      %generate random initial positions for vaccinateds
-floc=(bm_size-1)*rand(nf,2)+1;      %generate random initial positions for infectedes
+size=ENV_DATA.size;
+vacc_loc=(size-1)*rand(vacc_count,2)+1;      %generate random initial positions for vaccinateds
+infec_loc=(size-1)*rand(infec_count,2)+1;      %generate random initial positions for infectedes
 
-MESSAGES.pos=[rloc;floc];
+MESSAGES.pos=[vacc_loc;infec_loc];
 
-%generate all vaccinated agents and record their positions in ENV_MAT_R
-for r=1:nr
-    pos=rloc(r,:);
-    %create vaccinated agents with random ages between 0 and 10 days and random
-    %food levels 20-40
-    age=ceil(rand*10);
-    health=100;
-    lbreed=round(rand*PARAM.R_BRDFQ);
-    agent{r}=vaccinated(age,health,lbreed,PARAM.R_SPD,pos, true);
+for vacc=1:vacc_count
+    pos = vacc_loc(vacc,:);
+    age = ceil(rand*10);
+    health = 100;
+    immune = true;
+    
+    agent{vacc} = vaccinated(age, health, immune, PARAM.VACC_SPEED, pos);
 end
 
-%generate all infected agents and record their positions in ENV_MAT_F
-for f=nr+1:nr+nf
-    pos=floc(f-nr,:);
-    %create infected agents with random ages between 0 and 10 days and random
+for infec = vacc_count+1:vacc_count+infec_count
+    pos=infec_loc(infec-vacc_count,:);
     
     age=ceil(rand*10);
     health=50;
-    agent{f}=infected(age,health,pos);
+    agent{infec}=infected(age,health,pos);
 end

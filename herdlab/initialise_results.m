@@ -10,8 +10,8 @@ IT_STATS=struct(...
     'vaccinated', zeros(1, nsteps+1),...      % vaccinated count
     'infected', zeros(1, nsteps+1),...        % infected count
     'infections', zeros(1, nsteps+1),...      % new infections
-    'mig', zeros(1, nsteps+1),...             % migrations
-    'tot', zeros(1, nsteps+1),...             % total agent count
+    'migrations', zeros(1, nsteps+1),...      % migrations
+    'agent_count', zeros(1, nsteps+1),...     % total agent count
     'dead_infected', zeros(1, nsteps+1)...    % dead infected
 );
 

@@ -1,58 +1,34 @@
-function [nagent,nn]=update_messages(agent,prev_n,temp_n)
+function [nagent,agt_count]=update_messages(agent,prev_n,temp_n)
 
-%copy all surviving and new agents in to a new agent list - dead agents
-%will be empty structures
+global MESSAGES IT_STATS STEP_NUM
 
-%agent - list of existing agents, including those that have died in the
-%current iteration
-%prev_n - previous number of agents at the start of this iteration
-%temp_n - number of existing agents, including those that have died in the
-%current iteration
-%nagent - list of surviving agents and empty structures
-%nn - number of surviving agents
+nagent = cell(1,temp_n);                  %initialise list for surviving agents
+agt_count = 0;                                   %tracks number of surviving agents
 
-%global variables
-%N_IT current iteration no
-%IT_STATS data structure for saving model statistics
-%MESSAGES is a data structure containing information that agents need to
-%broadcast to each other
-   %    MESSAGES.atype - n x 1 array listing the type of each agent in the model
-   %    (1=vaccinated, 2-infected, 3=dead agent)
-   %    MESSAGES.pos - list of every agent position in [x y]
-   %    MESSAGE.dead - n x1 array containing ones for agents that have died
-   %    in the current iteration
-%ENV_DATA - is a data structure containing information about the model
-   %environment
-
-global MESSAGES IT_STATS N_IT ENV_DATA
-
-nagent=cell(1,temp_n);                  %initialise list for surviving agents
-nn=0;                                   %tracks number of surviving agents
-for cn=1:temp_n
-    if isempty(agent{cn})               %agent died in a previous iteration (not the current one)
-        dead=1;
-    elseif cn<=prev_n                   %agent is not new, therefore it might have died
-        dead=MESSAGES.dead(cn);         %will be one for agents that have died, zero otherwise
-    else 
-        dead=0;
+for agt_index = 1:temp_n
+    if isempty(agent{agt_index})               %agent died in a previous iteration (not the current one)
+        new_infec = true;
+    elseif agt_index <= prev_n                   %agent is not new, therefore it might have died
+        new_infec = MESSAGES.new_infec(agt_index);         %will be one for agents that have died, zero otherwise
+    else
+        new_infec = false;
     end
-    if dead==0                          %if agent is not dead
-        nagent{cn}=agent{cn};           %copy object into the new list
-        pos=get(agent{cn},'pos');
-        MESSAGES.pos(cn,:)=pos;                    
-         if isa(agent{cn},'vaccinated')
-             MESSAGES.atype(cn)=1;
-             IT_STATS.vaccinated(N_IT+1)=IT_STATS.vaccinated(N_IT+1)+1;
-         elseif isa(agent{cn},'infected')
-             MESSAGES.atype(cn)=2;
-             IT_STATS.infected(N_IT+1)=IT_STATS.infected(N_IT+1)+1;
-         end
-         MESSAGES.dead(cn)=0;           %clear death message
-         nn=nn+1;
+    if ~new_infec                   % if agent is not newly infected
+        nagent{agt_index} = agent{agt_index};           %copy object into the new list
+        MESSAGES.pos(agt_index,:) = get(agent{agt_index},'pos');
+        if isa(agent{agt_index}, 'vaccinated')
+            MESSAGES.atype(agt_index)=1;
+            IT_STATS.vaccinated(STEP_NUM+1)=IT_STATS.vaccinated(STEP_NUM+1)+1;
+        elseif isa(agent{agt_index}, 'infected')
+            MESSAGES.atype(agt_index)=2;
+            IT_STATS.infected(STEP_NUM+1)=IT_STATS.infected(STEP_NUM+1)+1;
+        end
+        MESSAGES.new_infec(agt_index) = 0;           %clear infected message
+        agt_count = agt_count + 1;
     else                                %agent has died
-        MESSAGES.pos(cn,:)=[-1 -1];     %enter dummy position in list
-        MESSAGES.atype(cn)=0;           %set type to dead
-        MESSAGES.dead(cn)=0;            %clear death message
+        MESSAGES.pos(agt_index, :) = [-1 -1];     %enter dummy position in list
+        MESSAGES.atype(agt_index) = 0;           %set type to dead
+        MESSAGES.new_infec(agt_index) = 0;            %clear infected message
     end
 end
-IT_STATS.tot(N_IT+1)=nn;                %update total agent number
+IT_STATS.tot(STEP_NUM+1)=agt_count;                %update total agent number
