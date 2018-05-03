@@ -10,6 +10,9 @@ if nargin == 5
     img_output=false;
 elseif nargin == 6
     img_output=false;
+elseif nargin ~= 7
+    disp('Not enough args: env_size, vuln_count, vacc_count, infec_count, step_count, [fast_mode], [img_output]');
+    return
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,13 +29,9 @@ initialise_results(vuln_count, vacc_count, infec_count, step_count);    % initia
 %MODEL EXECUTION
 for step_num = 1:step_count
     STEP_NUM = step_num;
-    [agent, n] = agnt_solve(agent); % the function which calls the rules
-    plot_results(agent, step_count, fast_mode, img_output); % updates results figures and structures
-    
-    if n<=0 % if no more agents, then stop simulation
-        disp('General convergence criteria satisfied - no agents left alive! > ')
-        break
-    end
+    [agent] = agnt_solve(agent); % the function which calls the rules
+    plot_results(agent, step_count, fast_mode, img_output); % updates results figures and structures    
+
     if IT_STATS.vulnerable(step_num) == 0
         disp('No vulnerable agents')
         break

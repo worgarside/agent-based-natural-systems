@@ -1,39 +1,42 @@
-function [nagent, agt_count] = update_messages(agent, prev_n, temp_n)
+function [new_agents] = update_messages(agent, agt_count)
 
 global MESSAGES IT_STATS STEP_NUM
 
-nagent = cell(1,temp_n);                  % initialise list for surviving agents
-agt_count = 0;                                   % tracks number of surviving agents
+new_agents = cell(1, agt_count);  % initialise agent list for next iteration
+new_count = 0;
 
-for agt_index = 1:temp_n
-    if isempty(agent{agt_index})               % agent died in a previous iteration (not the current one)
+for i = 1:agt_count
+    if isempty(agent{i})  % agent died in a previous iteration (not the current one)
         new_infec = true;
-    elseif agt_index <= prev_n                   % agent is not new, therefore it might have died
-        new_infec = MESSAGES.new_infec(agt_index);         % will be one for agents that have died, zero otherwise
     else
-        new_infec = false;
+        new_infec = MESSAGES.new_infec(i);  % will be one for agents that have died, zero otherwise
     end
-    if ~new_infec                   % if agent is not newly infected
-        nagent{agt_index} = agent{agt_index};           % copy object into the new list
-        MESSAGES.pos(agt_index,:) = get(agent{agt_index}, 'pos');
+    if ~new_infec  % if agent is not newly infected
+        new_agents{i} = agent{i};  % copy object into the new list
+        MESSAGES.pos(i,:) = get(agent{i}, 'pos');
         
-        if isa(agent{agt_index}, 'vulnerable')
-            MESSAGES.atype(agt_index) = 1;
+        if isa(agent{i}, 'vulnerable')
+            MESSAGES.atype(i) = 1;
             IT_STATS.vulnerable(STEP_NUM+1) = IT_STATS.vulnerable(STEP_NUM+1) + 1;
-        elseif isa(agent{agt_index}, 'vaccinated')
-            MESSAGES.atype(agt_index) = 2;
+        elseif isa(agent{i}, 'vaccinated')
+            MESSAGES.atype(i) = 2;
             IT_STATS.vaccinated(STEP_NUM+1) = IT_STATS.vaccinated(STEP_NUM+1) + 1;
-        elseif isa(agent{agt_index}, 'infected')
-            MESSAGES.atype(agt_index) = 3;
-            IT_STATS.infected(STEP_NUM+1) = IT_STATS.infected(STEP_NUM+1)+1;
+        elseif isa(agent{i}, 'infected')
+            MESSAGES.atype(i) = 3;
+            IT_STATS.infected(STEP_NUM+1) = IT_STATS.infected(STEP_NUM+1) + 1;
         end
         
-        MESSAGES.new_infec(agt_index) = 0;           % clear infected message
-        agt_count = agt_count + 1;
-    else                                % agent has died
-        MESSAGES.pos(agt_index, :) = [-1 -1];     % enter dummy position in list
-        MESSAGES.atype(agt_index) = 0;           % set type to dead
-        MESSAGES.new_infec(agt_index) = 0;            % clear infected message
+        MESSAGES.new_infec(i) = 0;  % clear infected message
+        new_count = new_count + 1;
+    else  % agent has been infected
+        nx = MESSAGES.pos(i, 1);  % extract exact location of this vaccinated
+        ny = MESSAGES.pos(i, 2);
+        npos = [nx ny];
+        
+        new_agents{i} = infected(MESSAGES.age(i), 50, npos);  % change agent type
+        MESSAGES.atype(i) = 3;  % set type to infected
+        MESSAGES.new_infec(i) = false;  % clear infected message
+        new_count = new_count + 1;
     end
 end
-IT_STATS.tot(STEP_NUM+1)=agt_count;                % update total agent number
+IT_STATS.agt_count(STEP_NUM+1)=new_count;  % update total agent number
