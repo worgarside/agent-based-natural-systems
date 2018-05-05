@@ -30,8 +30,8 @@ initialise_results(vuln_count, vacc_count, infec_count, step_count);    % initia
 for step_num = 1:step_count
     STEP_NUM = step_num;
     [agent] = agnt_solve(agent); % the function which calls the rules
-    plot_results(agent, step_count, fast_mode, img_output); % updates results figures and structures    
-
+    plot_results(agent, step_count, fast_mode, img_output); % updates results figures and structures
+    
     if IT_STATS.vulnerable(step_num) == 0
         disp('No vulnerable agents')
         break
@@ -42,11 +42,8 @@ for step_num = 1:step_count
     end
     if fast_mode                                       % if fastmode is used ...
         for test_l = 1 : 5                                    % this checks the total number agents and adjusts the CONTROL_DATA.fmode_display_every variable accoringly to help prevent extreme slowdown
-            if n > CONTROL_DATA.fmode_control(1,test_l)     % CONTROL_DATA.fmode_control contains an array of thresholds for agent numbers and associated fmode_display_every values
-                CONTROL_DATA.fmode_display_every = CONTROL_DATA.fmode_control(2,test_l);
-            end
+            CONTROL_DATA.fmode_display_every = CONTROL_DATA.fmode_control(2,test_l);
         end
-        
     end
 end
 
