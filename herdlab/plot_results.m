@@ -14,11 +14,14 @@ global STEP_NUM IT_STATS ENV_DATA MESSAGES CONTROL_DATA
 vuln_count = IT_STATS.vulnerable;
 vacc_count = IT_STATS.vaccinated;
 infec_count = IT_STATS.infected;
+agent_count = IT_STATS.agt_count(STEP_NUM+1);
 
 fprintf('\nIteration #%i\n', STEP_NUM)
 fprintf('Migrations:      %i\n', IT_STATS.migrations(STEP_NUM+1))
-fprintf('Infected deaths: %i\n', IT_STATS.dead_infected(STEP_NUM+1))
 fprintf('Infections:      %i\n', IT_STATS.infections(STEP_NUM+1))
+fprintf('Vulnerable:      %i\n', IT_STATS.vulnerable(STEP_NUM+1))
+fprintf('Vaccinated:      %i\n', IT_STATS.vaccinated(STEP_NUM+1))
+fprintf('Infected:        %i\n', IT_STATS.infected(STEP_NUM+1))
 
 %plot line graphs of agent numbers and remaining food
 if (fast_mode==false) || (STEP_NUM==nsteps) || ((fast_mode==true) && (rem(STEP_NUM , CONTROL_DATA.fmode_display_every)==0))
@@ -31,8 +34,7 @@ if (fast_mode==false) || (STEP_NUM==nsteps) || ((fast_mode==true) && (rem(STEP_N
     col{2}='r-';
     col{3}='b-';
     
-    n = vuln_count(STEP_NUM+1) + vacc_count(STEP_NUM+1) + infec_count(STEP_NUM+1);
-    f2=figure(2);
+        f2=figure(2);
     set(f2,'Units', 'Normalized');
     set(f2,'Position', [0.5 0.5 0.45 0.4]);
     
@@ -106,8 +108,8 @@ if (fast_mode==false) || (STEP_NUM==nsteps) || ((fast_mode==true) && (rem(STEP_N
         'Position', [20 20 60 20], ...
         'Callback', 'global ENV_DATA; ENV_DATA.pause=true; display(ENV_DATA.pause); clear ENV_DATA;');
     
-    title(['Iteration #' num2str(STEP_NUM) '     Agent Count: ' num2str(n)]);
-    axis off
+    title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(agent_count) '    Vuln: ' num2str(IT_STATS.vulnerable(STEP_NUM+1)) '    Vacc: ' num2str(IT_STATS.vaccinated(STEP_NUM+1)) '    Infec: ' num2str(IT_STATS.infected(STEP_NUM+1))]);
+    axis on
     drawnow
     if outImages==true  % this outputs images if outImage parameter set to true!!
         if fast_mode==true % this warning is to show not all iterations are being output if fmode=true!
