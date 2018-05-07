@@ -8,6 +8,6 @@ function create_params
 
 global PARAM
 
-    PARAM.VACC_SPEED=5;
-    PARAM.INFEC_SPEED=5;  
-    PARAM.VULN_SPEED=5;  
+    PARAM.VACC_SPEED=1;
+    PARAM.INFEC_SPEED=1;  
+    PARAM.VULN_SPEED=1;  

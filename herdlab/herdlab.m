@@ -10,7 +10,7 @@ if nargin == 5
     img_output=false;
 elseif nargin == 6
     img_output=false;
-elseif nargin ~= 7
+elseif nargin ~= 7 
     disp('Not enough args: env_size, vuln_count, vacc_count, infec_count, step_count, [fast_mode], [img_output]');
     return
 end
