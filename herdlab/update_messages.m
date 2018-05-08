@@ -33,7 +33,7 @@ for i = 1:agt_count
         ny = MESSAGES.pos(i, 2);
         npos = [nx ny];
         
-        new_agents{i} = infected(MESSAGES.age(i), 50, npos);  % change agent type
+        new_agents{i} = infected(MESSAGES.age(i), 50, npos, STEP_NUM+1);  % change agent type
         MESSAGES.atype(i) = 3;  % set type to infected
         MESSAGES.new_infec(i) = false;  % clear infected message
         new_count = new_count + 1;

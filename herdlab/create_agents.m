@@ -34,5 +34,5 @@ for infec = vuln_count+vacc_count+1 : vuln_count+vacc_count+infec_count
     health = 50;
     pos = infec_loc(infec-(vuln_count+vacc_count),:);
     
-    agent{infec} = infected(age, health, pos);
+    agent{infec} = infected(age, health, pos, 0);
 end
