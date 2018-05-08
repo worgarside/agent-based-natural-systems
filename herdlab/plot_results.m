@@ -1,16 +1,7 @@
 function plot_results(agent, nsteps, fast_mode, outImages)
 
-% Plots 2d patch images of agents onto background
-%%%%%%%%%%%
-% plot_results(agent,vacc_count,inf_count)
-%%%%%%%%%%%
-% agent - current list of agent structures
-% vacc_count -  no. vaccinated
-% inf_count -  no. infected
-
 global STEP_NUM IT_STATS ENV_DATA MESSAGES
 
-% write results to the screen
 vuln_count = IT_STATS.vulnerable;
 vacc_count = IT_STATS.vaccinated;
 infec_count = IT_STATS.infected;
@@ -27,9 +18,14 @@ f2=figure(2);
 set(f2,'Units', 'Normalized');
 set(f2,'Position', [0.5 0.5 0.45 0.4]);
 
-maxValue = 1.1*max(IT_STATS.agt_count);
+maxValue = 1.05*max(IT_STATS.agt_count);
 
-plot((1:STEP_NUM+1), vuln_count(1:STEP_NUM+1), 'b-', (1:STEP_NUM+1), vacc_count(1:STEP_NUM+1), 'g-', (1:STEP_NUM+1), infec_count(1:STEP_NUM+1), 'r-', (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-')
+plot(...
+    (1:STEP_NUM+1), vuln_count(1:STEP_NUM+1), 'b-',...
+    (1:STEP_NUM+1), vacc_count(1:STEP_NUM+1), 'g-',...
+    (1:STEP_NUM+1), infec_count(1:STEP_NUM+1), 'r-',...
+    (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-')
+
 axis([0 nsteps 0 maxValue]);
 
 drawnow
@@ -38,26 +34,24 @@ drawnow
 f3 = figure(3);
 
 size = ENV_DATA.size;
-typ=MESSAGES.atype;
 clf                             %clear previous plot
-set(f3,'Units','Normalized');
-set(f3,'Position',[0.05 0.05 0.66 0.66]);
-v=(1:size);
-[X,Y]=meshgrid(v);
-Z=floor(50*ones(size,size));
-H=zeros(size,size);
-hs=surf(Y,X,H,Z);               %plot food distribution on plain background
-cm=colormap('gray');
-icm=flipud(cm);
+set(f3,'Units', 'Normalized');
+set(f3,'Position', [0.05 0.05 0.66 0.66]);
+v = (1:size);
+[X,Y] = meshgrid(v);
+Z = floor(50*ones(size,size));
+H = zeros(size,size);
+hs = surf(Y,X,H,Z);               %plot food distribution on plain background
+cm = colormap('gray');
+icm = flipud(cm);
 colormap(icm);
-set(hs,'SpecularExponent',1);       %sets up lighting
-set(hs,'SpecularStrength',0.1);
+set(hs, 'SpecularExponent', 1);       %sets up lighting
+set(hs, 'SpecularStrength', 0.1);
 hold on
 
 for curr_agent = 1:length(agent)
-    if typ(curr_agent) > 0
+    if MESSAGES.atype(curr_agent) > 0
         pos = get(agent{curr_agent}, 'pos');
-        
         if isa(agent{curr_agent}, 'vulnerable')
             fo = plot(pos(1), pos(2), 'b.');
             set(fo,'MarkerSize', 20);
@@ -67,26 +61,23 @@ for curr_agent = 1:length(agent)
         elseif isa(agent{curr_agent}, 'infected')
             fo = plot(pos(1), pos(2), 'r.');
             set(fo,'MarkerSize', 20);
-        else
-            fo = plot(pos(1), pos(2), 'y*');
-            set(fo,'MarkerSize', 20);
         end
     end
 end
 
-% Once all cells are plotted, set up perspective, lighting etc.
 h = findobj(gcf,'type', 'surface');
 % set(h,'edgecolor', 'white');
 set(h,'edgecolor', 'none');
 lighting flat
 axis equal
 
-uicontrol('Style', 'pushbutton',...
+uicontrol(...
+    'Style', 'pushbutton',...
     'String', 'PAUSE',...
     'Position', [20 20 60 20], ...
     'Callback', 'global ENV_DATA; ENV_DATA.pause=true; display(ENV_DATA.pause); clear ENV_DATA;');
 
-title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(agent_count) '    Vuln: ' num2str(IT_STATS.vulnerable(STEP_NUM+1)) '    Vacc: ' num2str(IT_STATS.vaccinated(STEP_NUM+1)) '    Infec: ' num2str(IT_STATS.infected(STEP_NUM+1))]);
+title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(agent_count) '    Vuln: ' num2str(vuln_count(STEP_NUM+1)) '    Vacc: ' num2str(vacc_count(STEP_NUM+1)) '    Infec: ' num2str(infec_count(STEP_NUM+1))]);
 axis on
 drawnow
 if outImages==true  % this outputs images if outImage parameter set to true!!

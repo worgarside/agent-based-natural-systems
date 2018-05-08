@@ -36,6 +36,7 @@ for cn=1:temp_n
     else 
         dead=0;
     end
+    
     if dead==0                          %if agent is not dead
         nagent{cn}=agent{cn};           %copy object into the new list
         pos=get(agent{cn},'pos');
