@@ -1,4 +1,4 @@
-function plot_results(agent, nsteps, fast_mode, outImages)
+function plot_results(agent, fast_mode, outImages)
 
 global STEP_NUM IT_STATS ENV_DATA MESSAGES
 
@@ -18,7 +18,8 @@ f2=figure(2);
 set(f2,'Units', 'Normalized');
 set(f2,'Position', [0.6 0.6 0.4 0.35]);
 
-maxValue = 1.05*max(IT_STATS.agt_count);
+xRange = 1.05*STEP_NUM;
+yRange = 1.05*max(IT_STATS.agt_count);
 
 plot(...
     (1:STEP_NUM+1), vuln_count(1:STEP_NUM+1), 'b-',...
@@ -26,7 +27,7 @@ plot(...
     (1:STEP_NUM+1), infec_count(1:STEP_NUM+1), 'r-',...
     (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-')
 
-axis([0 nsteps 0 maxValue]);
+axis([0 xRange 0 yRange]);
 title('Agent Types');
 legend('Vuln','Vacc', 'Infec', 'Total');
 xlabel('Steps')

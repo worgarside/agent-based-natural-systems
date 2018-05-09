@@ -1,7 +1,5 @@
 function c = set(c, prop_name, val)
 
-%standard function to allow insertion of memory parameters from rabbit object
-
 switch prop_name    
     case 'age'
         c.age = val;

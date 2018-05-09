@@ -30,7 +30,7 @@ initialise_results(vuln_count, vacc_count, infec_count, step_count);    % initia
 for step_num = 1:step_count
     STEP_NUM = step_num;
     [agent] = agnt_solve(agent); % the function which calls the rules
-    plot_results(agent, step_count, fast_mode, img_output); % updates results figures and structures
+    plot_results(agent, fast_mode, img_output); % updates results figures and structures
     
     if IT_STATS.vulnerable(step_num) == 0
         disp('No vulnerable agents')

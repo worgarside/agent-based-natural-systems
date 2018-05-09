@@ -1,6 +1,6 @@
 function [agent]=create_agents(vuln_count, vacc_count,infec_count)
 
-global ENV_DATA MESSAGES
+global ENV_DATA MESSAGES PARAM
 
 size = ENV_DATA.size;
 
@@ -17,22 +17,25 @@ for vuln = 1 : vuln_count
     pos = vuln_loc(vuln,:);
     carrier = false;
     immune = false;
+    last_breed = ceil(rand*PARAM.VULN_BREED_FREQ);
     
-    agent{vuln} = vulnerable(age, health, pos, carrier, immune);
+    agent{vuln} = vulnerable(age, health, pos, carrier, immune, last_breed);
 end
 
 for vacc = vuln_count+1 : vuln_count+vacc_count
     age = ceil(rand*10);
     health = 100;
     pos = vacc_loc(vacc-vuln_count,:);
+    last_breed = ceil(rand*PARAM.VACC_BREED_FREQ);
     
-    agent{vacc} = vaccinated(age, health, pos);
+    agent{vacc} = vaccinated(age, health, pos, last_breed);
 end
 
 for infec = vuln_count+vacc_count+1 : vuln_count+vacc_count+infec_count    
     age = ceil(rand*10);
     health = 50;
     pos = infec_loc(infec-(vuln_count+vacc_count),:);
+    last_breed = ceil(rand*PARAM.INFEC_BREED_FREQ);
     
-    agent{infec} = infected(age, health, pos, 0);
+    agent{infec} = infected(age, health, pos, last_breed);
 end
