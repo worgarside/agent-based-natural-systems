@@ -16,10 +16,11 @@ for agt_num = 1:agent_count
             if isa(curr_agent, 'infected')
                 infect(curr_agent);  % if current agent is infected, infect others around them
             end
-            curr_agent = migrate(curr_agent,agt_num);  % migrate regardless of infection
-            
+            curr_agent = migrate(curr_agent);  % migrate regardless of infection
+            age = curr_agent.age;
+            curr_agent.age = age + 1;
         end
-        agent{agt_num}=curr_agent;  % update cell array with modified agent data structure
+        agent{agt_num} = curr_agent;  % update cell array with modified agent data structure
     end
 end
 

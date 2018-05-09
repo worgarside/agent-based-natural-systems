@@ -11,7 +11,7 @@ distances = sqrt((vuln_pos(:,1)-pos(:,1)).^2+(vuln_pos(:,2)-pos(:,2)).^2);
 [dist, ind] = min(distances);
 nrst = vuln_indices(ind);
 
-if dist<=spd && ~isempty(nrst)
+if dist<=spd & ~isempty(nrst)
     
     if length(nrst) > 1
         s = round(rand*(length(nrst)-1))+1;
