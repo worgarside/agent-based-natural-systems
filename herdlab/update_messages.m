@@ -14,11 +14,14 @@ for i = 1:new_agt_count
         end
         
         new_infec = MESSAGES.new_infec(i);
+        new_vacc = MESSAGES.new_vacc(i);
     else
         dead = false;
         MESSAGES.dead(i) = false;
         new_infec = false;
         MESSAGES.new_infec(i) = false;
+        new_vacc = false;
+        MESSAGES.new_vacc(i) = false;
         MESSAGES.age(i) = 0;
     end
     
@@ -27,20 +30,28 @@ for i = 1:new_agt_count
         ny = MESSAGES.pos(i, 2);
         npos = [nx ny];
         
-        new_agents{i} = infected(MESSAGES.age(i), 50, npos, STEP_NUM+1);
+        new_agents{i} = infected(MESSAGES.age(i), npos, STEP_NUM+1, MESSAGES.last_breed(i));
         MESSAGES.atype(i) = 3;
         MESSAGES.new_infec(i) = false;
+        new_count = new_count + 1;
+    elseif new_vacc
+        nx = MESSAGES.pos(i, 1);
+        ny = MESSAGES.pos(i, 2);
+        npos = [nx ny];
+        
+        new_agents{i} = vaccinated(MESSAGES.age(i), npos, MESSAGES.last_breed(i));
+        MESSAGES.atype(i) = 2;
+        MESSAGES.new_vacc(i) = false;
         new_count = new_count + 1;
     elseif dead
         MESSAGES.pos(i,:) = [-1 -1];     %enter dummy position in list
         MESSAGES.atype(i) = 0;           %set type to dead
         MESSAGES.dead(i) = 0;            %clear death message
-    elseif dead && new_infec
-        disp('Dead and new infection error  ', i);
     else
         new_agents{i} = agent{i};  % copy object into the new list
         MESSAGES.pos(i,:) = get(agent{i}, 'pos');
-        
+        MESSAGES.age(i) = get(agent{i}, 'age');
+        MESSAGES.last_breed(i) = get(agent{i}, 'last_breed');
         if isa(agent{i}, 'vulnerable')
             MESSAGES.atype(i) = 1;
             IT_STATS.vulnerable(STEP_NUM+1) = IT_STATS.vulnerable(STEP_NUM+1) + 1;
@@ -58,4 +69,4 @@ for i = 1:new_agt_count
     
     
 end
-IT_STATS.agt_count(STEP_NUM+1)=new_count;  % update total agent number
+IT_STATS.agt_count(STEP_NUM+1) = new_count;  % update total agent number

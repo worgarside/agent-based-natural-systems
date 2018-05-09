@@ -1,7 +1,6 @@
 classdef infected
     properties
         age;
-        health;
         pos;
         infection_step;
         last_breed;
@@ -9,9 +8,8 @@ classdef infected
     methods
         function f = infected(varargin)
             f.age = varargin{1};
-            f.health = varargin{2};
-            f.pos = varargin{3};
-            f.infection_step = varargin{4};
+            f.pos = varargin{2};
+            f.infection_step = varargin{3};
             f.last_breed = varargin{4};
         end
     end

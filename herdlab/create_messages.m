@@ -13,6 +13,8 @@ for agt_index = 1:length(agent)
     
     MESSAGES.pos(agt_index,:) = get(agent{agt_index},'pos');
     MESSAGES.age(agt_index) = get(agent{agt_index}, 'age');
-    MESSAGES.new_infec(agt_index)=0;
+    MESSAGES.last_breed(agt_index) = get(agent{agt_index}, 'last_breed');
+    MESSAGES.new_infec(agt_index) = false;
+    MESSAGES.new_vacc(agt_index) = false;
     MESSAGES.dead(agt_index) = false;
 end

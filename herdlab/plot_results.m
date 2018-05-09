@@ -4,6 +4,7 @@ global STEP_NUM IT_STATS ENV_DATA MESSAGES
 
 vuln_count = IT_STATS.vulnerable;
 vacc_count = IT_STATS.vaccinated;
+healthy_count = vuln_count + vacc_count;
 infec_count = IT_STATS.infected;
 agent_count = IT_STATS.agt_count(STEP_NUM+1);
 
@@ -16,7 +17,7 @@ fprintf('Infected:        %i\n', IT_STATS.infected(STEP_NUM))
 
 f2=figure(2);
 set(f2,'Units', 'Normalized');
-set(f2,'Position', [0.6 0.6 0.4 0.35]);
+set(f2,'Position', [0.5 0.05 0.5 0.9]);
 
 xRange = 1.05*STEP_NUM;
 yRange = 1.05*max(IT_STATS.agt_count);
@@ -24,12 +25,13 @@ yRange = 1.05*max(IT_STATS.agt_count);
 plot(...
     (1:STEP_NUM+1), vuln_count(1:STEP_NUM+1), 'b-',...
     (1:STEP_NUM+1), vacc_count(1:STEP_NUM+1), 'g-',...
+    (1:STEP_NUM+1), healthy_count(1:STEP_NUM+1), 'c-',...
     (1:STEP_NUM+1), infec_count(1:STEP_NUM+1), 'r-',...
     (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-')
 
-axis([0 xRange 0 yRange]);
+axis([1 xRange 0 yRange]);
 title('Agent Types');
-legend('Vuln','Vacc', 'Infec', 'Total');
+legend('Vuln', 'Vacc', 'Health', 'Infec', 'Total');
 xlabel('Steps')
 ylabel('Number of agents')
 drawnow
@@ -40,7 +42,7 @@ f3 = figure(3);
 size = ENV_DATA.size;
 clf                             %clear previous plot
 set(f3,'Units', 'Normalized');
-set(f3,'Position', [0 0 0.6 0.66]);
+set(f3,'Position', [0 0.05 0.5 0.9]);
 v = (1:size);
 [X,Y] = meshgrid(v);
 Z = floor(50*ones(size,size));
