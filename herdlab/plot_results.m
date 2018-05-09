@@ -16,7 +16,7 @@ fprintf('Infected:        %i\n', IT_STATS.infected(STEP_NUM))
 
 f2=figure(2);
 set(f2,'Units', 'Normalized');
-set(f2,'Position', [0.5 0.5 0.45 0.4]);
+set(f2,'Position', [0.6 0.6 0.4 0.35]);
 
 maxValue = 1.05*max(IT_STATS.agt_count);
 
@@ -27,7 +27,10 @@ plot(...
     (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-')
 
 axis([0 nsteps 0 maxValue]);
-
+title('Agent Types');
+legend('Vuln','Vacc', 'Infec', 'Total');
+xlabel('Steps')
+ylabel('Number of agents')
 drawnow
 
 %create plot of agent locations.
@@ -36,7 +39,7 @@ f3 = figure(3);
 size = ENV_DATA.size;
 clf                             %clear previous plot
 set(f3,'Units', 'Normalized');
-set(f3,'Position', [0.05 0.05 0.66 0.66]);
+set(f3,'Position', [0 0 0.6 0.66]);
 v = (1:size);
 [X,Y] = meshgrid(v);
 Z = floor(50*ones(size,size));

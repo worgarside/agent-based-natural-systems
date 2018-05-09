@@ -8,10 +8,10 @@ new_count = 0;
 for i = 1:agt_count
     new_infec = MESSAGES.new_infec(i);
     
-    if isempty(agent{agt_count})
+    if isempty(agent{i})
         dead =  true;
     else
-        dead = MESSAGES.dead(agt_count);
+        dead = MESSAGES.dead(i);
     end
     
     if new_infec
@@ -24,9 +24,11 @@ for i = 1:agt_count
         MESSAGES.new_infec(i) = false; 
         new_count = new_count + 1;
     elseif dead
-        MESSAGES.pos(agt_count,:)=[-1 -1];     %enter dummy position in list
-        MESSAGES.atype(agt_count)=0;           %set type to dead
-        MESSAGES.dead(agt_count)=0;            %clear death message
+        MESSAGES.pos(i,:) = [-1 -1];     %enter dummy position in list
+        MESSAGES.atype(i) = 0;           %set type to dead
+        MESSAGES.dead(i) = 0;            %clear death message
+    elseif dead && new_infec
+        disp('Dead and new infection error  ', i);
     else
         
         new_agents{i} = agent{i};  % copy object into the new list

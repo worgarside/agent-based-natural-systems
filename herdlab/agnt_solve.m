@@ -9,8 +9,8 @@ for agt_num = 1:agent_count
     curr_agent = agent{agt_num};
     if isa(curr_agent,'infected')||isa(curr_agent,'vaccinated')||isa(curr_agent,'vulnerable')
 
-%         [curr_agent, klld] = die(curr_agent, agt_num);
-        klld = false;
+        [curr_agent, klld] = die(curr_agent, agt_num);
+%         klld = false;
         
         if ~klld
             if isa(curr_agent, 'infected')

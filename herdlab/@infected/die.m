@@ -6,7 +6,7 @@ klld = false;
 
 infection_age = STEP_NUM - agt.infection_step;
 
-if infection_age > PARAM.INFEC_LIFE
+if infection_age > PARAM.INFEC_LIFE && PARAM.INFEC_DEATH_CHANCE > rand
     klld = true;
     MESSAGES.dead(cn) = true;
 end
