@@ -35,7 +35,10 @@ for i = 1:new_agt_count
         ny = MESSAGES.pos(i, 2);
         npos = [nx ny];
         
-        new_agents{i} = infected(MESSAGES.age(i), npos, STEP_NUM+1, MESSAGES.last_breed(i));
+        age = get(agent{i}, 'age');
+        last_breed = get(agent{i}, 'last_breed');
+        
+        new_agents{i} = infected(age, npos, STEP_NUM+1, last_breed);
         MESSAGES.atype(i) = 3;
         MESSAGES.new_infec(i) = false;
         new_count = new_count + 1;
@@ -44,7 +47,10 @@ for i = 1:new_agt_count
         ny = MESSAGES.pos(i, 2);
         npos = [nx ny];
         
-        new_agents{i} = vaccinated(MESSAGES.age(i), npos, MESSAGES.last_breed(i));
+        age = get(agent{i}, 'age');
+        last_breed = get(agent{i}, 'last_breed');
+        
+        new_agents{i} = vaccinated(age, npos, last_breed);
         MESSAGES.atype(i) = 2;
         MESSAGES.new_vacc(i) = false;
         new_count = new_count + 1;
@@ -53,7 +59,10 @@ for i = 1:new_agt_count
         ny = MESSAGES.pos(i, 2);
         npos = [nx ny];
         
-        new_agents{i} = vulnerable(MESSAGES.age(i), npos, MESSAGES.last_breed(i));
+        age = get(agent{i}, 'age');
+        last_breed = get(agent{i}, 'last_breed');
+        
+        new_agents{i} = vulnerable(age, npos, last_breed);
         MESSAGES.atype(i) = 1;
         MESSAGES.new_vuln(i) = false;
         new_count = new_count + 1;
@@ -76,11 +85,7 @@ for i = 1:new_agt_count
             MESSAGES.atype(i) = 3;
             IT_STATS.infected(STEP_NUM+1) = IT_STATS.infected(STEP_NUM+1) + 1;
         end
-        
         new_count = new_count + 1;
     end
-    
-    
-    
 end
 IT_STATS.agt_count(STEP_NUM+1) = new_count;  % update total agent number

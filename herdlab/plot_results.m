@@ -17,7 +17,7 @@ agent_count = IT_STATS.agt_count(STEP_NUM+1);
 
 f2=figure(2);
 set(f2,'Units', 'Normalized');
-set(f2,'Position', [0.5 0.05 0.5 0.9]);
+set(f2,'Position', [0.5 0.05 0.5 0.8]);
 
 xRange = 1.05*STEP_NUM;
 yRange = 1.05*max(IT_STATS.agt_count);
@@ -42,7 +42,7 @@ f3 = figure(3);
 size = ENV_DATA.size;
 clf                             %clear previous plot
 set(f3,'Units', 'Normalized');
-set(f3,'Position', [0 0.05 0.5 0.9]);
+set(f3,'Position', [0 0.05 0.5 0.8]);
 v = (1:size);
 [X,Y] = meshgrid(v);
 Z = floor(50*ones(size,size));
@@ -84,7 +84,7 @@ uicontrol(...
     'Callback', 'global ENV_DATA; ENV_DATA.pause=true; display(ENV_DATA.pause); clear ENV_DATA;');
 
 title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(agent_count) '    Vuln: ' num2str(vuln_count(STEP_NUM+1)) '    Vacc: ' num2str(vacc_count(STEP_NUM+1)) '    Infec: ' num2str(infec_count(STEP_NUM+1))]);
-axis on
+axis off
 drawnow
 if outImages==true  % this outputs images if outImage parameter set to true!!
     if fast_mode==true % this warning is to show not all iterations are being output if fmode=true!

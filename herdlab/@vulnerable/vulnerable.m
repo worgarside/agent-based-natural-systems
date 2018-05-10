@@ -1,11 +1,9 @@
-classdef vulnerable
-    
+classdef vulnerable    
     properties
         age;
         pos;
         last_breed;
-    end
-    
+    end    
     methods
         function vuln = vulnerable(varargin)            
             vuln.age = varargin{1};
