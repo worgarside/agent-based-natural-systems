@@ -24,6 +24,7 @@ random_selection(1);                % randomises random number sequence (NOT age
 [agent] = create_agents(vuln_count, vacc_count, infec_count);  % create agents and place them in a cell array called 'agents'
 create_messages(agent);             % setup initial message lists
 initialise_results(vuln_count, vacc_count, infec_count, step_count);    % initialises structure for storing results
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %MODEL EXECUTION

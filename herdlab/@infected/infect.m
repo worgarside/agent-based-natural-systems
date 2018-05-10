@@ -19,7 +19,7 @@ if dist<=spd & ~isempty(nrst)
     end
     
     pk = (dist + PARAM.INFECTION_CHANCE)/2;
-
+    
     if  pk > rand
         IT_STATS.infections(STEP_NUM+1) = IT_STATS.infections(STEP_NUM+1)+1;
         MESSAGES.new_infec(nrst) = true;
