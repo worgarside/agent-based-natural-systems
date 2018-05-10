@@ -1,9 +1,7 @@
 function heal(agt, cn)
 
-global PARAM STEP_NUM MESSAGES
+global PARAM MESSAGES
 
-infection_age = STEP_NUM - agt.infection_step;
-
-if (infection_age > PARAM.INFEC_HEAL_TIME && PARAM.INFEC_HEAL_CHANCE > rand)
+if PARAM.INFEC_HEAL_CHANCE > (rand*1.5)
     MESSAGES.new_vuln(cn) = true;
 end

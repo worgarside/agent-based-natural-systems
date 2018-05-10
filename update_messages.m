@@ -42,7 +42,7 @@ for i = 1:new_agt_count
         MESSAGES.atype(i) = 3;
         MESSAGES.new_infec(i) = false;
         new_count = new_count + 1;
-    elseif new_vacc
+    elseif new_vacc || new_vuln
         nx = MESSAGES.pos(i, 1);
         ny = MESSAGES.pos(i, 2);
         npos = [nx ny];
@@ -51,19 +51,9 @@ for i = 1:new_agt_count
         last_breed = get(agent{i}, 'last_breed');
         
         new_agents{i} = vaccinated(age, npos, last_breed);
+
         MESSAGES.atype(i) = 2;
         MESSAGES.new_vacc(i) = false;
-        new_count = new_count + 1;
-    elseif new_vuln
-        nx = MESSAGES.pos(i, 1);
-        ny = MESSAGES.pos(i, 2);
-        npos = [nx ny];
-        
-        age = get(agent{i}, 'age');
-        last_breed = get(agent{i}, 'last_breed');
-        
-        new_agents{i} = vulnerable(age, npos, last_breed);
-        MESSAGES.atype(i) = 1;
         MESSAGES.new_vuln(i) = false;
         new_count = new_count + 1;
     elseif dead

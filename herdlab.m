@@ -4,7 +4,6 @@ function herdlab(...
     vacc_count,...
     infec_count,...
     step_count,...
-    curability,...
     lethality,...
     plot_control,...
     quick_stop,...
@@ -21,17 +20,15 @@ switch nargin
         disp('Add arguments in this order: env_size, vuln_count, vacc_count, infec_count, step_count, [curability], [lethality], [plot_control], [img_output]');
         return
     case 6
-        disp('Please add both curability AND lethality');
-    case 7
         plot_control = 1;
         quick_stop = true;
         img_output = false;
-    case 8
+    case 7
         quick_stop = true;
         img_output = false;
-    case 9
+    case 8
         img_output = false;
-    case 10
+    case 9
     otherwise
         disp('Not enough args: env_size, vuln_count, vacc_count, infec_count, step_count, [fast_mode], [img_output]');
         return
@@ -42,9 +39,9 @@ total_agents_count = vuln_count  + vacc_count + infec_count;
 % disp('Press any key to continue');pause;
 
 create_control;
-create_params(curability, lethality);
+create_params(lethality);
 create_environment(env_size);
-random_selection(1);
+random_selection(0);
 [agent] = create_agents(vuln_count, vacc_count, infec_count);
 create_messages(agent);
 initialise_results(vuln_count, vacc_count, infec_count, step_count);
@@ -70,21 +67,21 @@ for i = 1:step_count
     end
     
     if plot_control == 0 && STEP_NUM == step_count
-        plot_results(agent, vuln_count, vacc_count, infec_count, curability, lethality, img_output);
+        plot_results(agent, vuln_count, vacc_count, infec_count, lethality, img_output);
     elseif mod(i, plot_control) == 0
-        plot_results(agent, vuln_count, vacc_count, infec_count, curability, lethality, img_output);
+        plot_results(agent, vuln_count, vacc_count, infec_count, lethality, img_output);
     end
     
     if vuln_count > 0 && IT_STATS.vulnerable(i) == 0 && quick_stop
         disp('No vulnerable agents')
-        plot_results(agent, vuln_count, vacc_count, infec_count, curability, lethality, img_output);
+        plot_results(agent, vuln_count, vacc_count, infec_count, lethality, img_output);
         break
     end
     if infec_count > 0 && IT_STATS.infected(i) == 0 && quick_stop
         disp('No infected left')
-        plot_results(agent, vuln_count, vacc_count, infec_count, curability, lethality, img_output);
+        plot_results(agent, vuln_count, vacc_count, infec_count, lethality, img_output);
         break
     end
 end
-
+fprintf('\n\n');
 clear global

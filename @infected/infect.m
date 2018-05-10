@@ -18,7 +18,7 @@ if dist<=spd & ~isempty(nrst)
         nrst = nrst(s);
     end
     
-    pk = (dist + PARAM.INFECTION_CHANCE)/2;
+    pk = 1-dist;
     
     if  pk > rand
         IT_STATS.infections(STEP_NUM+1) = IT_STATS.infections(STEP_NUM+1)+1;

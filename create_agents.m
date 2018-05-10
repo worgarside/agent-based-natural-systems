@@ -1,4 +1,4 @@
-function [agent]=create_agents(vuln_count, vacc_count,infec_count)
+function [agent] = create_agents(vuln_count, vacc_count,infec_count)
 
 global ENV_DATA MESSAGES PARAM
 
@@ -12,7 +12,7 @@ infec_loc = (size-1)*rand(infec_count, 2)+1;
 MESSAGES.pos=[vuln_loc;vacc_loc;infec_loc];
 
 for vuln = 1 : vuln_count
-    age = ceil(rand*PARAM.VULN_VACCINE_AGE);
+    age = ceil(rand*PARAM.VULN_MAX_AGE);
     pos = vuln_loc(vuln,:);
     last_breed = ceil(rand*PARAM.VULN_BREED_FREQ);
     

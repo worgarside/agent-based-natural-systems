@@ -7,7 +7,7 @@ new_agent_count = 0;
 for i = 1:agent_count
     curr_agent = agent{i};
     
-    if isa(curr_agent,'infected')||isa(curr_agent,'vaccinated')||isa(curr_agent,'vulnerable')
+    if isa(curr_agent,'infected') || isa(curr_agent,'vaccinated') || isa(curr_agent,'vulnerable')
         [curr_agent, klld] = die(curr_agent, i);
         
         if ~klld
@@ -19,12 +19,12 @@ for i = 1:agent_count
             [curr_agent, new] = breed(curr_agent);
             
             if ~isempty(new)
-                new_agent_count = new_agent_count + 1; 
-                agent{agent_count + new_agent_count} = new;		
+                new_agent_count = new_agent_count + 1;
+                agent{agent_count + new_agent_count} = new;
             end
-                        
+            
             if isa(curr_agent, 'vulnerable')
-                vaccinate(curr_agent, i); 
+                vaccinate(curr_agent, i);
             end
             
             curr_agent = migrate(curr_agent);  % migrate regardless of infection
