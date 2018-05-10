@@ -1,4 +1,4 @@
-function plot_results(agent, fast_mode, outImages)
+function plot_results(agent, outImages)
 
 global STEP_NUM IT_STATS ENV_DATA MESSAGES
 
@@ -87,9 +87,6 @@ title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(agent_count) '    V
 axis off
 drawnow
 if outImages==true  % this outputs images if outImage parameter set to true!!
-    if fast_mode==true % this warning is to show not all iterations are being output if fmode=true!
-        disp('WARNING*** fastmode set - To output all Images for a movie, set fmode to false(fast mode turned off) ');
-    end
     filenamejpg = sprintf('%04d',STEP_NUM);
     eval(['print -djpeg90 agent_plot_' filenamejpg]); %print new jpeg to create movie later
 end
