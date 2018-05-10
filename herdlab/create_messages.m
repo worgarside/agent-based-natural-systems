@@ -16,5 +16,6 @@ for agt_index = 1:length(agent)
     MESSAGES.last_breed(agt_index) = get(agent{agt_index}, 'last_breed');
     MESSAGES.new_infec(agt_index) = false;
     MESSAGES.new_vacc(agt_index) = false;
+    MESSAGES.new_vuln(agt_index) = false;
     MESSAGES.dead(agt_index) = false;
 end

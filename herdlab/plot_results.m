@@ -8,12 +8,12 @@ healthy_count = vuln_count + vacc_count;
 infec_count = IT_STATS.infected;
 agent_count = IT_STATS.agt_count(STEP_NUM+1);
 
-fprintf('\nIteration #%i\n', STEP_NUM)
-fprintf('Migrations:      %i\n', IT_STATS.migrations(STEP_NUM))
-fprintf('Infections:      %i\n', IT_STATS.infections(STEP_NUM))
-fprintf('Vulnerable:      %i\n', IT_STATS.vulnerable(STEP_NUM))
-fprintf('Vaccinated:      %i\n', IT_STATS.vaccinated(STEP_NUM))
-fprintf('Infected:        %i\n', IT_STATS.infected(STEP_NUM))
+% fprintf('\nIteration #%i\n', STEP_NUM)
+% fprintf('Migrations:      %i\n', IT_STATS.migrations(STEP_NUM))
+% fprintf('Infections:      %i\n', IT_STATS.infections(STEP_NUM))
+% fprintf('Vulnerable:      %i\n', IT_STATS.vulnerable(STEP_NUM))
+% fprintf('Vaccinated:      %i\n', IT_STATS.vaccinated(STEP_NUM))
+% fprintf('Infected:        %i\n', IT_STATS.infected(STEP_NUM))
 
 f2=figure(2);
 set(f2,'Units', 'Normalized');

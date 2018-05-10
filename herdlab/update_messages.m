@@ -15,14 +15,19 @@ for i = 1:new_agt_count
         
         new_infec = MESSAGES.new_infec(i);
         new_vacc = MESSAGES.new_vacc(i);
+        new_vuln = MESSAGES.new_vuln(i);
     else
+        MESSAGES.age(i) = 0;
+        
         dead = false;
         MESSAGES.dead(i) = false;
         new_infec = false;
         MESSAGES.new_infec(i) = false;
         new_vacc = false;
         MESSAGES.new_vacc(i) = false;
-        MESSAGES.age(i) = 0;
+        new_vuln = false;
+        MESSAGES.new_vuln(i) = false;
+        
     end
     
     if new_infec
@@ -42,6 +47,15 @@ for i = 1:new_agt_count
         new_agents{i} = vaccinated(MESSAGES.age(i), npos, MESSAGES.last_breed(i));
         MESSAGES.atype(i) = 2;
         MESSAGES.new_vacc(i) = false;
+        new_count = new_count + 1;
+    elseif new_vuln
+        nx = MESSAGES.pos(i, 1);
+        ny = MESSAGES.pos(i, 2);
+        npos = [nx ny];
+        
+        new_agents{i} = vulnerable(MESSAGES.age(i), npos, MESSAGES.last_breed(i));
+        MESSAGES.atype(i) = 1;
+        MESSAGES.new_vuln(i) = false;
         new_count = new_count + 1;
     elseif dead
         MESSAGES.pos(i,:) = [-1 -1];     %enter dummy position in list
