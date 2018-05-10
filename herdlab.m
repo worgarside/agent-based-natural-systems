@@ -42,14 +42,14 @@ total_agents_count = vuln_count  + vacc_count + infec_count;
 % disp('Press any key to continue');pause;
 
 create_control;
-create_params;
+create_params(curability, lethality);
 create_environment(env_size);
 random_selection(1);
 [agent] = create_agents(vuln_count, vacc_count, infec_count);
 create_messages(agent);
 initialise_results(vuln_count, vacc_count, infec_count, step_count);
 
-fprintf('\n     Step 0000: 000%%');
+fprintf('     Step 0000: 000%%');
 fprintf('    Total: %05i', length(agent));
 fprintf('    Vuln:  %05i', vuln_count);
 fprintf('    Vacc:  %05i', vacc_count);
@@ -61,7 +61,7 @@ for i = 1:step_count
     
     if plot_control ~= 1
         if mod(i, 100) == 0
-            fprintf('\n     Step %04i, %03i%%', i, (i/step_count)*100);
+            fprintf('\n     Step %04i: %03i%%', i, (i/step_count)*100);
             fprintf('    Total: %05i', IT_STATS.agt_count(STEP_NUM));
             fprintf('    Vuln:  %05i', IT_STATS.vulnerable(STEP_NUM));
             fprintf('    Vacc:  %05i', IT_STATS.vaccinated(STEP_NUM));

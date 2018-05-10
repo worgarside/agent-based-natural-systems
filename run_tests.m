@@ -1,7 +1,7 @@
 function run_tests()
 
 env_size = 4;
-step_count = 100;
+step_count = 1000;
 plot_control = 0;
 quick_stop = false;
 img_output = true;
