@@ -1,19 +1,11 @@
-function plot_results(agent, outImages)
-
+function plot_results(agent, vuln_count, vacc_count, infec_count, curability, lethality, outImages)
 global STEP_NUM IT_STATS ENV_DATA MESSAGES
 
-vuln_count = IT_STATS.vulnerable;
-vacc_count = IT_STATS.vaccinated;
-healthy_count = vuln_count + vacc_count;
-infec_count = IT_STATS.infected;
-agent_count = IT_STATS.agt_count(STEP_NUM+1);
-
-% fprintf('\nIteration #%i\n', STEP_NUM)
-% fprintf('Migrations:      %i\n', IT_STATS.migrations(STEP_NUM))
-% fprintf('Infections:      %i\n', IT_STATS.infections(STEP_NUM))
-% fprintf('Vulnerable:      %i\n', IT_STATS.vulnerable(STEP_NUM))
-% fprintf('Vaccinated:      %i\n', IT_STATS.vaccinated(STEP_NUM))
-% fprintf('Infected:        %i\n', IT_STATS.infected(STEP_NUM))
+curr_vuln_count = IT_STATS.vulnerable;
+curr_vacc_count = IT_STATS.vaccinated;
+curr_healthy_count = curr_vuln_count + curr_vacc_count;
+curr_infec_count = IT_STATS.infected;
+curr_agent_count = IT_STATS.agt_count(STEP_NUM+1);
 
 f2=figure(2);
 set(f2,'Units', 'Normalized');
@@ -23,18 +15,24 @@ xRange = 1.05*STEP_NUM;
 yRange = 1.05*max(IT_STATS.agt_count);
 
 plot(...
-    (1:STEP_NUM+1), vuln_count(1:STEP_NUM+1), 'b-',...
-    (1:STEP_NUM+1), vacc_count(1:STEP_NUM+1), 'g-',...
-    (1:STEP_NUM+1), healthy_count(1:STEP_NUM+1), 'c-',...
-    (1:STEP_NUM+1), infec_count(1:STEP_NUM+1), 'r-',...
+    (1:STEP_NUM+1), curr_vuln_count(1:STEP_NUM+1), 'b-',...
+    (1:STEP_NUM+1), curr_vacc_count(1:STEP_NUM+1), 'g-',...
+    (1:STEP_NUM+1), curr_healthy_count(1:STEP_NUM+1), 'c-',...
+    (1:STEP_NUM+1), curr_infec_count(1:STEP_NUM+1), 'r-',...
     (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-')
 
 axis([1 xRange 0 yRange]);
-title('Agent Types');
-legend('Vuln', 'Vacc', 'Health', 'Infec', 'Total');
+title([num2str(vuln_count) ' / ' num2str(vacc_count) ' / ' num2str(infec_count) '  -  C' num2str(curability) ' L' num2str(lethality) '  -  ' num2str(curr_vuln_count(STEP_NUM)) ' / ' num2str(curr_vacc_count(STEP_NUM)) ' / ' num2str(curr_infec_count(STEP_NUM))]);
+
+legend('Vuln', 'Vacc', 'Non-infec', 'Infec', 'Total');
 xlabel('Steps')
 ylabel('Number of agents')
 drawnow
+if outImages
+    filename = sprintf('%03i_%03i_%i-C%iL%i', vuln_count, vacc_count, infec_count, curability, lethality);
+    eval(['print -djpeg90 ' filename]);
+end
+
 
 %create plot of agent locations.
 f3 = figure(3);
@@ -72,7 +70,6 @@ for curr_agent = 1:length(agent)
 end
 
 h = findobj(gcf,'type', 'surface');
-% set(h,'edgecolor', 'white');
 set(h,'edgecolor', 'none');
 lighting flat
 axis equal
@@ -83,10 +80,10 @@ uicontrol(...
     'Position', [20 20 60 20], ...
     'Callback', 'global ENV_DATA; ENV_DATA.pause=true; display(ENV_DATA.pause); clear ENV_DATA;');
 
-title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(agent_count) '    Vuln: ' num2str(vuln_count(STEP_NUM+1)) '    Vacc: ' num2str(vacc_count(STEP_NUM+1)) '    Infec: ' num2str(infec_count(STEP_NUM+1))]);
+title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(curr_agent_count) '    Vuln: ' num2str(curr_vuln_count(STEP_NUM+1)) '    Vacc: ' num2str(curr_vacc_count(STEP_NUM+1)) '    Infec: ' num2str(curr_infec_count(STEP_NUM+1))]);
 axis off
 drawnow
-if outImages==true  % this outputs images if outImage parameter set to true!!
-    filenamejpg = sprintf('%04d',STEP_NUM);
-    eval(['print -djpeg90 agent_plot_' filenamejpg]); %print new jpeg to create movie later
-end
+% if outImages==true  % this outputs images if outImage parameter set to true!!
+%     filenamejpg = sprintf('%04d',STEP_NUM);
+%     eval(['print -djpeg90 agent_plot_' filenamejpg]); %print new jpeg to create movie later
+% end
