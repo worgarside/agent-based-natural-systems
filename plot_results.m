@@ -11,22 +11,22 @@ f2=figure(2);
 set(f2,'Units', 'Normalized');
 set(f2,'Position', [0.5 0.05 0.5 0.8]);
 
+
 x_range = 1.05*STEP_NUM;
 y_range = 1.05*max(IT_STATS.agt_count);
 y_range = 2500;
 
-plot(...
+p = plot(...
     (1:STEP_NUM+1), curr_vuln_count(1:STEP_NUM+1), 'b-',...
     (1:STEP_NUM+1), curr_vacc_count(1:STEP_NUM+1), 'g-',...
-    (1:STEP_NUM+1), curr_healthy_count(1:STEP_NUM+1), 'c-',...
     (1:STEP_NUM+1), curr_infec_count(1:STEP_NUM+1), 'r-',...
     (1:STEP_NUM+1), IT_STATS.agt_count(1:STEP_NUM+1), 'k-'...
-    )
-
+    );
+set(p,'linewidth',2);
 axis([1 x_range 0 y_range]);
 title([num2str(vuln_count) ' / ' num2str(vacc_count) ' / ' num2str(infec_count) '  -  L' num2str(lethality) '  -  ' num2str(curr_vuln_count(STEP_NUM)) ' / ' num2str(curr_vacc_count(STEP_NUM)) ' / ' num2str(curr_infec_count(STEP_NUM))]);
 
-legend('Vuln', 'Vacc', 'Non-infec', 'Infec', 'Total');
+legend('Vuln', 'Vacc', 'Infec', 'Total');
 xlabel('Steps')
 ylabel('Number of agents')
 drawnow
