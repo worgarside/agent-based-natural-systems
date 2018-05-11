@@ -13,7 +13,7 @@ function herdlab(...
 clear global
 close all
 
-global STEP_NUM IT_STATS
+global STEP_NUM IT_STATS MESSAGES
 
 switch nargin
     case 0
@@ -83,5 +83,13 @@ for i = 1:step_count
         break
     end
 end
+
+total = 0;
+for i = 1:length(MESSAGES.infections_passed)
+    total = total + MESSAGES.infections_passed(i);
+end
+average = total / IT_STATS.infected(STEP_NUM);
+fprintf('\nR0: %.02f', average);
+
 fprintf('\n\n');
 clear global

@@ -12,7 +12,7 @@ for i = 1:agent_count
         
         if ~klld
             if isa(curr_agent, 'infected')
-                infect(curr_agent);  % if current agent is infected, infect others around them
+                infect(curr_agent, i);  % if current agent is infected, infect others around them
                 heal(curr_agent, i)
             end
             

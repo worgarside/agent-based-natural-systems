@@ -1,6 +1,6 @@
-function infect(agt)
+function infect(agt, i)
 
-global  IT_STATS STEP_NUM MESSAGES PARAM
+global  MESSAGES PARAM
 
 pos = agt.pos;
 spd = PARAM.INFEC_SPEED;
@@ -21,7 +21,12 @@ if dist<=spd & ~isempty(nrst)
     pk = 1-dist;
     
     if  pk > rand
-        IT_STATS.infections(STEP_NUM+1) = IT_STATS.infections(STEP_NUM+1)+1;
+        
         MESSAGES.new_infec(nrst) = true;
+        if length(MESSAGES.infections_passed) > i
+            MESSAGES.infections_passed(i) = MESSAGES.infections_passed(i) + 1;
+        else
+            MESSAGES.infections_passed(i) = 0;
+        end
     end
 end
