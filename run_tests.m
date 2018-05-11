@@ -7,7 +7,7 @@ quick_stop = false;
 img_output = true;
 
 agents = [36 0 4; 26 10 4; 16 20 4; 6 30 4; 1 35 4];
-disease = [0; 0.25; 0.5; 0.75; 1];
+disease = [0; 0.25; 0.5; 0.75;];
 
 for i = 1:size(agents)
     vuln_count = agents(i, 1);
