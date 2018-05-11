@@ -1,4 +1,4 @@
-    function herdlab(...
+function herdlab(...
     env_size,...
     vuln_count,...
     vacc_count,...
@@ -83,6 +83,17 @@ for i = 1:step_count
         break
     end
 end
+
+infectives = 0;
+total_infec_count = 0;
+for i = 1:length(MESSAGES.infections_passed)
+    total_infec_count = total_infec_count + MESSAGES.infections_passed(i);
+    if  MESSAGES.infections_passed(i) > 0
+        infectives = infectives +1;
+    end
+end
+qc = total_infec_count / infectives;
+fprintf('\n          R0: %.02f', qc);
 
 fprintf('\n\n');
 clear global

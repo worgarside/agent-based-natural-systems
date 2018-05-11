@@ -23,10 +23,6 @@ for i = 1:agent_count
                 agent{agent_count + new_agent_count} = new;
             end
             
-            if isa(curr_agent, 'vulnerable')
-                vaccinate(curr_agent, i);
-            end
-            
             curr_agent = migrate(curr_agent);  % migrate regardless of infection
             age = curr_agent.age;
             curr_agent.age = age + 1;
