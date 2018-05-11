@@ -9,7 +9,7 @@ if last_breed >= PARAM.VACC_BREED_FREQ && PARAM.VACC_BREED_CHANCE > rand
     age = 0;
     last_breed = 0;
     
-    new = vaccinated(age, pos, last_breed);
+    new = vulnerable(age, pos, last_breed);
     agt.last_breed = 0;
 else
     agt.last_breed = last_breed + 1;

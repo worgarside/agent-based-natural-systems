@@ -24,21 +24,21 @@ p = plot(...
     );
 set(p,'linewidth',2);
 axis([1 x_range 0 y_range]);
-title([num2str(vuln_count) ' / ' num2str(vacc_count) ' / ' num2str(infec_count) '  -  L' num2str(lethality) '  -  ' num2str(curr_vuln_count(STEP_NUM)) ' / ' num2str(curr_vacc_count(STEP_NUM)) ' / ' num2str(curr_infec_count(STEP_NUM))]);
+title([num2str(vuln_count) ' / ' num2str(vacc_count) ' / ' num2str(infec_count) '  -  V' num2str(lethality) '  -  ' num2str(curr_vuln_count(STEP_NUM)) ' / ' num2str(curr_vacc_count(STEP_NUM)) ' / ' num2str(curr_infec_count(STEP_NUM))]);
 
 legend('Vuln', 'Vacc', 'Infec', 'Total');
 xlabel('Steps')
 ylabel('Number of agents')
 drawnow
 if outImages
-    filename = sprintf('%03i_%03i_%i-L%i', vuln_count, vacc_count, infec_count, lethality*100);
+    filename = sprintf('%03i_%03i_%i-V%i', vuln_count, vacc_count, infec_count, lethality*100);
     eval(['print -djpeg90 ' filename]);
 end
 
-%
+
 % %create plot of agent locations.
 % f3 = figure(3);
-%
+% 
 % size = ENV_DATA.size;
 % clf                             %clear previous plot
 % set(f3,'Units', 'Normalized');
@@ -54,7 +54,7 @@ end
 % set(hs, 'SpecularExponent', 1);       %sets up lighting
 % set(hs, 'SpecularStrength', 0.1);
 % hold on
-%
+% 
 % for curr_agent = 1:length(agent)
 %     if MESSAGES.atype(curr_agent) > 0
 %         pos = get(agent{curr_agent}, 'pos');
@@ -70,18 +70,18 @@ end
 %         end
 %     end
 % end
-%
+% 
 % h = findobj(gcf,'type', 'surface');
 % set(h,'edgecolor', 'none');
 % lighting flat
 % axis equal
-%
+% 
 % uicontrol(...
 %     'Style', 'pushbutton',...
 %     'String', 'PAUSE',...
 %     'Position', [20 20 60 20], ...
 %     'Callback', 'global ENV_DATA; ENV_DATA.pause=true; display(ENV_DATA.pause); clear ENV_DATA;');
-%
+% 
 % title(['Iteration #' num2str(STEP_NUM) '    Total: ' num2str(curr_agent_count) '    Vuln: ' num2str(curr_vuln_count(STEP_NUM+1)) '    Vacc: ' num2str(curr_vacc_count(STEP_NUM+1)) '    Infec: ' num2str(curr_infec_count(STEP_NUM+1))]);
 % axis off
 % drawnow

@@ -1,4 +1,4 @@
-function herdlab(...
+    function herdlab(...
     env_size,...
     vuln_count,...
     vacc_count,...
@@ -83,13 +83,6 @@ for i = 1:step_count
         break
     end
 end
-
-total = 0;
-for i = 1:length(MESSAGES.infections_passed)
-    total = total + MESSAGES.infections_passed(i);
-end
-average = total / IT_STATS.infected(STEP_NUM);
-fprintf('\nR0: %.02f', average);
 
 fprintf('\n\n');
 clear global

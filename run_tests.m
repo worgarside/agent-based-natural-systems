@@ -1,13 +1,15 @@
 function run_tests()
 
-env_size = 5;
-step_count = 200;
+env_size = 10;
+step_count = 150;
 plot_control = 0;
 quick_stop = false;
 img_output = true;
 
-agents = [36 0 4; 26 10 4; 16 20 4; 6 30 4; 1 35 4];
-disease = [0; 0.25; 0.5; 0.75;];
+% agents = [36 0 4; 26 10 4; 16 20 4; 6 30 4; 1 35 4];
+agents = [36 0 4;16 20 4; 6 30 4;];
+% disease = [0; 0.25; 0.5; 0.75;];
+disease = [0.5; 0.75; 1;];
 
 for i = 1:size(agents)
     vuln_count = agents(i, 1);

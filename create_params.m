@@ -1,4 +1,4 @@
-function create_params(lethality)
+function create_params(vacc_rate)
 
 global PARAM
 
@@ -9,8 +9,8 @@ PARAM.VULN_MAX_AGE = 85;                        % Maximum age of vulnerable agen
 PARAM.VULN_BREED_FREQ = 20;                     % Iterations between offspring generation
 PARAM.VULN_BREED_CHANCE = 0.5;                 % Chance of vulnerable breeding
 
-PARAM.VULN_VACCINE_AGE = 16;                    % age at which vulnerable become vaccinated
-PARAM.VULN_VACCINATE_CHANCE = 0.1;             % chance of vulnerable getting vaccinated
+PARAM.VULN_VACCINE_AGE = 0;                    % age at which vulnerable become vaccinated
+PARAM.VULN_VACCINATE_CHANCE = vacc_rate*0.75;             % chance of vulnerable getting vaccinated
 
 % ==================== Vaccinated ==================== %
 
@@ -27,5 +27,5 @@ PARAM.INFEC_BREED_FREQ = 20;                    % Iterations between offspring g
 PARAM.INFEC_BREED_CHANCE = 0.25;                     % Chance of infected breeding
 
 PARAM.INFEC_DEATH_DELAY = 10;
-PARAM.INFEC_DEATH_CHANCE = lethality*0.02;      % Chance of dying per step 
-PARAM.INFEC_HEAL_CHANCE = lethality*0.015;    % Chance of healing per step
+PARAM.INFEC_DEATH_CHANCE = 0.01; % lethality*0.02;      % Chance of dying per step 
+PARAM.INFEC_HEAL_CHANCE = 0.01;%lethality*0.015;    % Chance of healing per step
