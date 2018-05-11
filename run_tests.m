@@ -1,12 +1,12 @@
 function run_tests()
 
-env_size = 4;
+env_size = 10;
 step_count = 500;
 plot_control = 0;
 quick_stop = false;
 img_output = true;
 
-agents = [360 0 40; 260 100 40; 160 200 40; 60 300 40; 10 350 40];
+agents = [36 0 4; 26 10 4; 16 20 4; 6 30 4; 1 35 4];
 disease = [0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1];
 
 for i = 1:size(agents)
