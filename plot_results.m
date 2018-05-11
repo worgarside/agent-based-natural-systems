@@ -13,7 +13,7 @@ set(f2,'Position', [0.5 0.05 0.5 0.8]);
 
 x_range = 1.05*STEP_NUM;
 y_range = 1.05*max(IT_STATS.agt_count);
-y_range = 10000;
+y_range = 2500;
 
 plot(...
     (1:STEP_NUM+1), curr_vuln_count(1:STEP_NUM+1), 'b-',...
