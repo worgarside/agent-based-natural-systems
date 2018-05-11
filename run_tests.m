@@ -6,10 +6,7 @@ plot_control = 0;
 quick_stop = false;
 img_output = true;
 
-% agents = [36 0 4; 26 10 4; 16 20 4; 6 30 4; 1 35 4];
-% agents = [36 0 4; 6 30 4;];
-agents = [6 30 4];
-% disease = [0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1];
+agents = [36 0 4; 26 10 4; 16 20 4; 6 30 4; 1 35 4];
 disease = [0; 0.25; 0.5; 0.75; 1];
 
 for i = 1:size(agents)
