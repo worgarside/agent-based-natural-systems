@@ -1,22 +1,24 @@
 function create_messages(agent)
 
-global MESSAGES IT_STATS
+% populates global message boards for passing information between agents
+% and functions
+
+global MESSAGES
 
 for i = 1:length(agent)
-    if isa(agent{i},'vulnerable')
+    if isa(agent{i},'susceptible')
         MESSAGES.atype(i) = 1;
     elseif isa(agent{i},'vaccinated')
         MESSAGES.atype(i) = 2;
     elseif isa(agent{i}, 'infected')
         MESSAGES.atype(i) = 3;
     end
-    
-    MESSAGES.pos(i,:) = get(agent{i},'pos');
-    MESSAGES.age(i) = get(agent{i}, 'age');
-    MESSAGES.last_breed(i) = get(agent{i}, 'last_breed');
-    MESSAGES.new_infec(i) = false;
-    MESSAGES.new_vacc(i) = false;
-    MESSAGES.new_vuln(i) = false;
-    MESSAGES.dead(i) = false;
-    MESSAGES.infections_passed(i) = 0;
+
+    MESSAGES.new_infec(i) = false;  % flag for transforming to infected agent
+    MESSAGES.new_vacc(i) = false;   % flag for transforming to vacicnated agent
+    MESSAGES.new_susc(i) = false;   % flag for transforming to susceptible agent
+    MESSAGES.dead(i) = false;       % flag for removing agent from simulation
+    MESSAGES.infections_passed(i) = 0;   % matrix for storing the number of agents infected by each agent
+    % infections_passed is a simulation-wide global variable, rather than
+    % local to each step, which is why it's in MESSAGES and not IT_STATS
 end

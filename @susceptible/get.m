@@ -1,6 +1,6 @@
 function val = get(agt, prop)
 
-% standard function to allow extraction of memory parameters from vaccinated object
+% standard function to allow extraction of memory parameters from susceptible object
 % agt = current agent
 % prop = attribute to be retrieved
 

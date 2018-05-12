@@ -4,7 +4,7 @@ global ENV_DATA PARAM
 
 migrated = false;           % migration flag
 pos = agt.pos;              % agent position
-spd = PARAM.VACC_SPEED;     % agent speed
+spd = PARAM.SUSC_SPEED;     % agent speed
 size = ENV_DATA.size;       % size of arena
 
 migrate_count = 0;  % number of times the agent has tried to migrate

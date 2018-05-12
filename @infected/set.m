@@ -1,20 +1,20 @@
-function c=set(c,prop_name,val)
+function agt = set(agt, prop, val)
 
-%standard function to allow insertion of memory parameters from fox object
+% standard function to allow insertion of memory parameters
+% agt = current agent
+% prop = property to be set
+% value = value to be added to property
 
-switch prop_name
-   
-case 'food'
-   c.food=val;
-case 'pos'
-    c.pos=val; 
-case 'age'
-   c.age=val;
-case 'speed'
-   c.speed=val; 
-case 'last_breed'
-   c.last_breed=val; 
-otherwise 
-   error('invalid field name')
+switch prop    
+    case 'pos'
+        agt.pos = val;
+    case 'age'
+        agt.age = val;
+    case 'infection_step'
+        agt.infection_step = val;
+    case 'last_breed'
+        agt.last_breed = val;
+    otherwise
+        error('invalid field name')
 end
 

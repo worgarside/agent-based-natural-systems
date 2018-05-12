@@ -1,4 +1,6 @@
 classdef vaccinated
+    % A vaccinated agent, creates vaccinated offspring and is unaffacted by
+    % infected agents
     properties
         age;
         pos;

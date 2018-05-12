@@ -1,6 +1,6 @@
 function [agt, new] = breed(agt)
 
-% breeding function for class INFECTED
+% breeding function for class SUSCEPTIBLE
 % agt = infected agent
 % new = new agent object if created, otherwise empty
 
@@ -11,10 +11,10 @@ last_breed = agt.last_breed;    % number of steps since agent bred
 pos = agt.pos;                  % current agent position
 
 % Check sufficient time has passed for breeding and give random chance
-if last_breed >= PARAM.INFEC_BREED_FREQ && PARAM.INFEC_BREED_CHANCE > rand
+if last_breed >= PARAM.SUSC_BREED_FREQ && PARAM.SUSC_BREED_CHANCE > rand
     % Create new agent with new parameters, and reset breeding counter
     age = 0;
-    last_breed = 0;
+    last_breed = 0;    
     new = susceptible(age, pos, last_breed);
     agt.last_breed = 0;
 else

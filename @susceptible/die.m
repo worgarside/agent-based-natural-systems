@@ -7,9 +7,9 @@ function [agt, klld] = die(agt, i)
 
 global PARAM MESSAGES
 
-klld = false;
+klld = false;  % agent hasn't died yet
 
-if agt.age > PARAM.VACC_MAX_AGE
+if agt.age > PARAM.SUSC_MAX_AGE
     % kill agent and send a message to kill agent off at the end of the step
     klld = true;
     MESSAGES.dead(i) = true;

@@ -1,4 +1,7 @@
 classdef infected
+    % An agent who has been infected, can infect others and breed to
+    % produce susceptible agents. They have no effect on vaccinated agents
+    
     properties
         age;
         pos;
