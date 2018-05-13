@@ -10,7 +10,7 @@ pos = agt.pos;              % current agent position
 spd = PARAM.INFEC_SPEED;    % speed of agent
 
 % calculate indices, positions and distances of susc agents
-susc_indices = find(MESSAGES.atype == 1);  
+susc_indices = find(MESSAGES.atype == 1 | MESSAGES.atype == 2);  
 susc_pos = MESSAGES.pos(susc_indices,:);   
 distances = sqrt((susc_pos(:,1)-pos(:,1)).^2+(susc_pos(:,2)-pos(:,2)).^2);
 [dist, ind] = min(distances);   % find the smallest distance, dist = distance, ind = index of nearest agent
@@ -25,7 +25,7 @@ if dist<=spd & ~isempty(nrst)
     end
     
     % if the agent is closer than a random distance, infect them
-    if  dist < rand
+    if  dist < rand && MESSAGES.atype(nrst) == 1
         % don't create new infected agent immediately, just send a message
         MESSAGES.new_infec(nrst) = true;
         
